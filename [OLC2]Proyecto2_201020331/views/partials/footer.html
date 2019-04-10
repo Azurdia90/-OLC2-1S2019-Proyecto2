@@ -1,0 +1,26 @@
+<script type="text/javascript">
+    function submitCompilar()
+    {        
+        $(document).ready(function(){               
+            var txtEditor, txtConsola;        
+            txtEditor=$("#txtEntrada").val();            
+            $.post("http://localhost:3000/traducir",{varTxtEditor: txtEditor}, function(data){                
+                $("#txtConsola").val(data);                          
+            });
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    function submitEjecutar()
+    {        
+        $(document).ready(function(){               
+            var txtEditor, txtConsola;        
+            txtEditor=$("#txtEntrada").val();            
+            $.post("http://localhost:3000/ejecutar",{varTxtEditor: txtEditor}, function(data){                
+                $("#txtConsola").val(data);                          
+                alert("ejecución finalizada");                
+            });
+        });
+    }
+</script>

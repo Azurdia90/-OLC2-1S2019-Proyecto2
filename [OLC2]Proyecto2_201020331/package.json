@@ -1,0 +1,30 @@
+{
+  "name": "caas",
+  "version": "1.0.0",
+  "description": "Compilador como Servicio",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node app/index.js",
+    "build": "tsc -w",
+    "dev": "nodemon app/src/index.js"
+  },
+  "author": "Cristian Azurdia",
+  "license": "ISC",
+  "dependencies": {
+    "angular-cli": "^1.0.0-beta.28.3",
+    "body-parser": "^1.18.3",
+    "bootstrap": "^4.3.1",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "jison": "^0.4.18",
+    "jquery": "^3.3.1",
+    "typescript": "^3.3.4000",
+    "typescript-eslint-parser": "^22.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.16.1",
+    "@types/node": "^11.12.2",
+    "nodemon": "^1.18.10",
+    "ts-node": "^8.0.3"
+  }
+}
