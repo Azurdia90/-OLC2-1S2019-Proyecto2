@@ -36,7 +36,7 @@ var Diferente_Que = /** @class */ (function (_super) {
             }
             var res_diferente_que;
             var new_tam;
-            res_diferente_que = valor1.classValor == valor2.classValor;
+            res_diferente_que = valor1.classValor != valor2.classValor;
             new_tam = 1;
             resultado = new Simbolo_1.default(res_diferente_que == true ? 1 : 0, new_tam);
             return resultado;

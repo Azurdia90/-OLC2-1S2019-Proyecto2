@@ -66,28 +66,28 @@ var Mayor_Que = /** @class */ (function (_super) {
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " > " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " > " + valor2.classValor;
                     return resultado;
                 case 39 /* mayorque_caracter */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " > " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " > " + valor2.classValor;
                     return resultado;
                 case 40 /* mayorque_booleano */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " > " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " > " + valor2.classValor;
                     return resultado;
                 case 41 /* mayorque_numerico_caracter */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " > " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " > " + valor2.classValor;
                     return resultado;
                 case 42 /* mayorque_caracter_numerico */:
                     resultado.classAcceso = 0 /* publico */;

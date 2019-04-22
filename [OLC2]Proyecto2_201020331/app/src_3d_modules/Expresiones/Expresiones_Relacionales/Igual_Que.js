@@ -34,8 +34,15 @@ var Igual_Que = /** @class */ (function (_super) {
             if (valor2 == undefined) {
                 return new Simbolo_1.default(-33, -12);
             }
+            if (valor1.classTam == -12) {
+                return valor1;
+            }
+            if (valor2.classTam == -12) {
+                return valor2;
+            }
             var res_igual_que;
             var new_tam;
+            //console.log("compararemos: " + valor1.classValor + " == " + valor2.classValor );
             res_igual_que = valor1.classValor == valor2.classValor;
             new_tam = 1;
             resultado = new Simbolo_1.default(res_igual_que == true ? 1 : 0, new_tam);

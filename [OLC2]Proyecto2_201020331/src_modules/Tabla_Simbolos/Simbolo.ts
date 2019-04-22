@@ -1,26 +1,32 @@
 class Simbolo
 {
+    private _clase: String;
     private _acceso: tipo_acceso;
     private _rol: tipo_rol;
     private _tipo: tipo_dato_primitivo;
     private _identificador : String;
     private _valor : any;
-    private _in_heap: boolean;
     private _pos: number;
     private _tam: number;
 
     constructor()
     {
+        this._clase = "";
         this._acceso = tipo_acceso.publico;
         this._rol = tipo_rol.valor;
         this._tipo = tipo_dato_primitivo.nulo;
-        this._identificador = "";
-        this._in_heap = false;
+        this._identificador = "";        
         this._pos = 0;
         this._tam = 0;
     }
     
     //get y set
+
+    get classClase()
+    {
+        return this._clase;
+    }
+
     get classAcceso()
     {
         return this._acceso;
@@ -46,11 +52,6 @@ class Simbolo
         return this._valor;
     }
 
-    get class_In_Heap()
-    {
-        return this._in_heap;
-    }
-
     get classPos()
     {
         return this._pos;
@@ -61,6 +62,11 @@ class Simbolo
         return this._tam;
     }
 
+    set classClase(p_clase : String)
+    {
+        this._clase = p_clase;
+    }
+    
     set classAcceso(p_acceso : tipo_acceso)
     {
         this._acceso = p_acceso;
@@ -84,11 +90,6 @@ class Simbolo
     set classValor(p_valor : any)
     {
         this._valor = p_valor;
-    }
-
-    set classIn_Heap(p_in_heap : boolean)
-    {
-        this._in_heap = p_in_heap;
     }
 
     set classPos(p_pos : number)

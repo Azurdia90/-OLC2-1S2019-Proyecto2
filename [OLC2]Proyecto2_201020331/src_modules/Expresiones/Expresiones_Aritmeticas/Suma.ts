@@ -90,7 +90,7 @@ class Suma extends Expresion
                 case tipo_operacion.suma_entero_caracter:
                     
                     var etiqueta_actual = tabla_simbolos.classTemporal;
-                    tabla_simbolos.classCodigo_3D = "t" + etiqueta_actual + " = " + valor1.classValor + " + " + valor2.classValor + ";\n";
+                    tabla_simbolos.classCodigo_3D = "t" + etiqueta_actual + " = " + valor1.classValor + " + " + valor2.classValor+ ";\n";
                     
                     resultado.classAcceso = tipo_acceso.publico;
                     resultado.classRol = tipo_rol.aceptado;

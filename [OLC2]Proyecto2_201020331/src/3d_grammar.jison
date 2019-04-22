@@ -12,17 +12,17 @@
 "%e"                  return 'tipo_impresion'  
 "%d"                  return 'tipo_impresion'
 
+"=="                  return 's_equal'
 "="                   return 's_asign'
 "+"                   return 's_plus'
 "-"                   return 's_minus'
 "*"                   return 's_mul'
 "/"                   return 's_div'
 "%"                   return 's_mod'
-"<"                   return 's_less'
-">"                   return 's_greather'
 "<="                  return 's_less_equal'
 ">="                  return 's_greather_equal'
-"=="                  return 's_equal'
+"<"                   return 's_less'
+">"                   return 's_greather'
 "!="                  return 's_not_equal'
 "("                   return 's_par_open'
 ")"                   return 's_par_close'
@@ -41,13 +41,13 @@
 "ifFalse"             return 'r_iffalse'
 "goto"                return 'r_goto'
 "print"               return 'r_print'
-"stack"               return 'r_stack'
-"heap"                return 'r_heap'
-"void"                return 'r_void'
+"Stack"               return 'r_stack'
+"Heap"                return 'r_heap'
+"proc"                return 'r_proc'
+"begin"               return 'r_begin'
+"end"                 return 'r_end'
 "call"                return 'r_call'
 "$$_clean_scope"      return 'r_clean'
-
-
 
 "t"[0-9]+             return 'temporal' 
 "L"[0-9]+             return 'etiqueta' 
@@ -166,19 +166,19 @@ LISTA_IDENTIFICADORES
 SENTENCIA_ASIGNACION
     : temporal s_asign EXPRESION_ARITMETICA
       {
-        $$ = {etiqueta: "sentencia_asignacion", tipo: "0", id: $1, valor: $3};
+        $$ = {etiqueta: "sentencia_asignacion", tipo: 0, id: $1, valor: $3};
       } 
     | identificador s_asign EXPRESION_ARITMETICA
       {
-        $$ = {etiqueta: "sentencia_asignacion", tipo: "1", id: $1, valor: $3};
+        $$ = {etiqueta: "sentencia_asignacion", tipo: 1, id: $1, valor: $3};
       } 
     | r_stack s_cor_open POSICION s_cor_close s_asign EXPRESION_ARITMETICA
       {
-        $$ = {etiqueta: "sentencia_asignacion", tipo: "2", id: $1, valor: $6, posicion: $3};
+        $$ = {etiqueta: "sentencia_asignacion", tipo: 2, id: $1, valor: $6, posicion: $3};
       }     
     | r_heap  s_cor_open POSICION s_cor_close s_asign EXPRESION_ARITMETICA
       {
-        $$ = {etiqueta: "sentencia_asignacion", tipo: "3", id: $1, valor: $6, posicion: $3};
+        $$ = {etiqueta: "sentencia_asignacion", tipo: 3, id: $1, valor: $6, posicion: $3};
       } 
     ;
 
@@ -211,9 +211,9 @@ SENTENCIA_IF_FALSE
     ;
 
 SENTENCIA_METODO
-    : r_void identificador s_par_open s_par_close s_key_open LISTA_SENTENCIAS s_key_close
+    : r_proc identificador r_begin LISTA_SENTENCIAS r_end
       {
-        $$ = {etiqueta : "sentencia_metodo", valor: $2, valor2: $6}; 
+        $$ = {etiqueta : "sentencia_metodo", valor: $2, valor2: $4}; 
       }
     ;
 
@@ -225,7 +225,7 @@ SENTENCIA_LIMPIAR_METODO
     ;
 
 SENTENCIA_LLAMADA_METODO
-    : r_call identificador s_par_open s_par_close
+    : r_call identificador
       {
         $$ = {etiqueta : "sentencia_llamada", valor: $2}; 
       }
@@ -303,25 +303,25 @@ DATO_PRIMITIVO
       }
     | r_stack s_cor_open POSICION s_cor_close
       {
-        $$ = {etiqueta: "valor_primitivo", tipo: 3, valor: $1, pos: $3};
+        $$ = {etiqueta: "valor_primitivo", tipo: 3, valor: $1, posicion: $3};
       }
     | r_heap s_cor_open POSICION s_cor_close
       {
-        $$ = {etiqueta: "valor_primitivo", tipo: 4, valor: $1, pos: $3};
+        $$ = {etiqueta: "valor_primitivo", tipo: 4, valor: $1, posicion: $3};
       }
     ;
 
 POSICION
   : numero
     { 
-      $$ = {etiqueta: "valor_primitivo", tipo: "0", valor: $1};
+      $$ = {etiqueta: "valor_primitivo", tipo: 0, valor: $1};
     }
   | temporal
     { 
-      $$ = {etiqueta: "valor_primitivo", tipo: "1", valor: $1};
+      $$ = {etiqueta: "valor_primitivo", tipo: 1, valor: $1};
     }
   | identificador
     {
-      $$ = { etiqueta : "valor_primitivo", tipo : "2", valor: $1};
+      $$ = { etiqueta : "valor_primitivo", tipo: 2, valor: $1};
     }
   ;   

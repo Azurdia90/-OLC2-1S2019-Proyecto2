@@ -61,24 +61,8 @@ var Sentencia_Asignacion = /** @class */ (function (_super) {
                     var resultado_posicion = this.posicion.ejecutar(entorno_local);
                     if (resultado_valor.classTam != -12 || resultado_posicion.classTam != -12) {
                         var simbolo_nuevo = new Simbolo_1.default(resultado_valor.classValor, resultado_valor.classTam);
-                        if (Tabla_Simbolos_1.default.classStack.classTamaño > resultado_posicion.classValor) {
-                            var pos_mod = Tabla_Simbolos_1.default.classStack.obtener(resultado_posicion.classValor);
-                            console.log("si habia memoria suficiente");
-                            pos_mod.classValor = simbolo_nuevo.classValor;
-                            pos_mod.classTam = simbolo_nuevo.classTam;
-                            return new Simbolo_1.default(-10, -4);
-                        }
-                        else {
-                            var dif = (resultado_posicion.classValor - Tabla_Simbolos_1.default.classStack.classTamaño) + 3;
-                            for (var i = Tabla_Simbolos_1.default.classStack.classTamaño; i < dif; i++) {
-                                Tabla_Simbolos_1.default.classStack.agregar(new Simbolo_1.default(0, 1));
-                            }
-                            var pos_mod = Tabla_Simbolos_1.default.classStack.obtener(resultado_posicion.classValor);
-                            console.log("no habia memoria suficiente");
-                            pos_mod.classValor = simbolo_nuevo.classValor;
-                            pos_mod.classTam = simbolo_nuevo.classTam;
-                            return new Simbolo_1.default(-10, -4);
-                        }
+                        Tabla_Simbolos_1.default.classStack.agregar(simbolo_nuevo, resultado_posicion.classValor);
+                        return new Simbolo_1.default(-10, -4);
                     }
                     else {
                         new Simbolo_1.default(-33, -12);
@@ -92,24 +76,8 @@ var Sentencia_Asignacion = /** @class */ (function (_super) {
                     var resultado_posicion = this.posicion.ejecutar(entorno_local);
                     if (resultado_valor.classTam != -12 || resultado_posicion.classTam != -12) {
                         var simbolo_nuevo = new Simbolo_1.default(resultado_valor.classValor, resultado_valor.classTam);
-                        if (Tabla_Simbolos_1.default.classHeap.classTamaño > resultado_posicion.classValor) {
-                            var pos_mod = Tabla_Simbolos_1.default.classHeap.obtener(resultado_posicion.classValor);
-                            console.log("si habia memoria suficiente");
-                            pos_mod.classValor = simbolo_nuevo.classValor;
-                            pos_mod.classTam = simbolo_nuevo.classTam;
-                            return new Simbolo_1.default(-10, -4);
-                        }
-                        else {
-                            var dif = (resultado_posicion.classValor - Tabla_Simbolos_1.default.classHeap.classTamaño) + 3;
-                            for (var i = Tabla_Simbolos_1.default.classHeap.classTamaño; i < dif; i++) {
-                                Tabla_Simbolos_1.default.classHeap.agregar(new Simbolo_1.default(0, 1));
-                            }
-                            var pos_mod = Tabla_Simbolos_1.default.classHeap.obtener(resultado_posicion.classValor);
-                            console.log("no habia memoria suficiente");
-                            pos_mod.classValor = simbolo_nuevo.classValor;
-                            pos_mod.classTam = simbolo_nuevo.classTam;
-                            return new Simbolo_1.default(-10, -4);
-                        }
+                        Tabla_Simbolos_1.default.classHeap.agregar(simbolo_nuevo, resultado_posicion.classValor);
+                        return new Simbolo_1.default(-10, -4);
                     }
                     else {
                         new Simbolo_1.default(-33, -12);

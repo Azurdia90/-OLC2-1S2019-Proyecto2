@@ -37,6 +37,7 @@ var Valor = /** @class */ (function () {
         else if (this.tipo == 2) {
             console.log("Vamos a devolver valor de la variable : " + this.valor);
             if (Tabla_Simbolos_1.default.existe_simbolo(this.valor)) {
+                var resultado = Tabla_Simbolos_1.default.obtener_simbolo(this.valor);
                 return Tabla_Simbolos_1.default.obtener_simbolo(this.valor);
             }
             else {
@@ -56,7 +57,7 @@ var Valor = /** @class */ (function () {
         else if (this.tipo == 4) {
             var resultado_pos = this.pos.ejecutar(entorno_local);
             if (Tabla_Simbolos_1.default.classHeap.classTamaño > resultado_pos.classValor) {
-                console.log("vamos a devolver valor de la posicion del heap: " + resultado_pos.classValor);
+                console.log("vamos a devolver valor de la posicion del Heap: " + resultado_pos.classValor);
                 return Tabla_Simbolos_1.default.classHeap.obtener(resultado_pos.classValor);
             }
             else {

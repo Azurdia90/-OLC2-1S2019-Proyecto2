@@ -67,7 +67,7 @@ class Diferente_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;                    
                     resultado.classIdentificador = "10-4";
                     resultado.classTipo = tipo_dato_primitivo.booleano;
-                    resultado.classValor = valor1.classValor + " != " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;
                 case tipo_operacion.igual_caracter:
@@ -75,7 +75,7 @@ class Diferente_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
                     resultado.classIdentificador = "10-4";                    
-                    resultado.classValor = valor1.classValor + " != " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;      
                 case tipo_operacion.igual_booleano:                    
@@ -83,7 +83,7 @@ class Diferente_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
                     resultado.classIdentificador = "10-4";                    
-                    resultado.classValor = valor1.classValor + " != " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;
                 case tipo_operacion.igual_numerico_caracter: 
@@ -91,7 +91,7 @@ class Diferente_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
                     resultado.classIdentificador = "10-4";                    
-                    resultado.classValor = valor1.classValor + " != " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;
                 case tipo_operacion.igual_caracter_numerico:
@@ -99,7 +99,7 @@ class Diferente_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;                    
                     resultado.classIdentificador = "10-4";                    
-                    resultado.classValor = valor1.classValor + " != " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;      
                 case tipo_operacion.igual_nulo:
@@ -107,7 +107,7 @@ class Diferente_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
                     resultado.classIdentificador = "10-4";                    
-                    resultado.classValor = valor1.classValor + " != " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;     
                 case tipo_operacion.error:

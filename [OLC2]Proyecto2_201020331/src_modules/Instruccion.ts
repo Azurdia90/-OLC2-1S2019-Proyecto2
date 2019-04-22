@@ -13,7 +13,7 @@ class Instruccion
         this.codigo_3D = "";
     }
 
-    ejecutar()
+    ejecutar(entorno_local : Map<String,Simbolo>, ptr_entorno? : Array<number>)
     {
         return new Simbolo();
     }

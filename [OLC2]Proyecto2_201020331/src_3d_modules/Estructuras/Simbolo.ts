@@ -3,8 +3,6 @@ class Simbolo
 {
     private valor : number;
     private tam   : number;
-
-    private next : any;
     
     constructor(p_valor : number, p_tam : number )
     {
@@ -33,15 +31,6 @@ class Simbolo
         this.tam = p_tam;
     }
 
-    get classNext()
-    {
-        return this.next;
-    }
-
-    set classNext(p_next : Simbolo)
-    {
-        this.next = p_next;
-    }
 }
 
 export default Simbolo;

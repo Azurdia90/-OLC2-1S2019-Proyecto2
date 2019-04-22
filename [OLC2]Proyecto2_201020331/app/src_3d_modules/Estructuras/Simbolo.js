@@ -26,16 +26,6 @@ var Simbolo = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Simbolo.prototype, "classNext", {
-        get: function () {
-            return this.next;
-        },
-        set: function (p_next) {
-            this.next = p_next;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return Simbolo;
 }());
 exports.default = Simbolo;

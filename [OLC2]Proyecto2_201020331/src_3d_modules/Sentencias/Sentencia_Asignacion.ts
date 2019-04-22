@@ -30,6 +30,7 @@ class Sentencia_Asignacion extends Instruccion
                 if(entorno_local != undefined && tabla_simbolos.existe_simbolo(this.id) )
                 {
                     var resultado_valor = this.valor.ejecutar(entorno_local);
+
                     if(resultado_valor.classTam != -12)
                     {
                         var simbolo_nuevo = new Simbolo(resultado_valor.classValor,1);
@@ -66,28 +67,8 @@ class Sentencia_Asignacion extends Instruccion
                     if(resultado_valor.classTam != -12 || resultado_posicion.classTam != -12)  
                     {
                         var simbolo_nuevo = new Simbolo(resultado_valor.classValor,resultado_valor.classTam);
-
-                        if(tabla_simbolos.classStack.classTamaño > resultado_posicion.classValor)
-                        {                            
-                            var pos_mod = tabla_simbolos.classStack.obtener(resultado_posicion.classValor);
-                            console.log("si habia memoria suficiente");
-                            pos_mod.classValor = simbolo_nuevo.classValor;
-                            pos_mod.classTam = simbolo_nuevo.classTam;
-                            return new Simbolo(-10,-4);
-                        }
-                        else
-                        {                            
-                            var dif = (resultado_posicion.classValor - tabla_simbolos.classStack.classTamaño) + 3;
-                            for(var i = tabla_simbolos.classStack.classTamaño; i < dif; i++)
-                            {
-                                tabla_simbolos.classStack.agregar(new Simbolo(0,1));
-                            }
-                            var pos_mod = tabla_simbolos.classStack.obtener(resultado_posicion.classValor);
-                            console.log("no habia memoria suficiente");
-                            pos_mod.classValor = simbolo_nuevo.classValor;
-                            pos_mod.classTam = simbolo_nuevo.classTam;
-                            return new Simbolo(-10,-4);
-                        }
+                        tabla_simbolos.classStack.agregar(simbolo_nuevo,resultado_posicion.classValor);
+                        return new Simbolo(-10,-4);
                     }
                     else
                     {                        
@@ -106,28 +87,8 @@ class Sentencia_Asignacion extends Instruccion
                     if(resultado_valor.classTam != -12 || resultado_posicion.classTam != -12)  
                     {
                         var simbolo_nuevo = new Simbolo(resultado_valor.classValor,resultado_valor.classTam);
-
-                        if(tabla_simbolos.classHeap.classTamaño > resultado_posicion.classValor)
-                        {                            
-                            var pos_mod = tabla_simbolos.classHeap.obtener(resultado_posicion.classValor);
-                            console.log("si habia memoria suficiente");
-                            pos_mod.classValor = simbolo_nuevo.classValor;
-                            pos_mod.classTam = simbolo_nuevo.classTam;
-                            return new Simbolo(-10,-4);
-                        }
-                        else
-                        {                            
-                            var dif = (resultado_posicion.classValor - tabla_simbolos.classHeap.classTamaño) + 3;
-                            for(var i = tabla_simbolos.classHeap.classTamaño; i < dif; i++)
-                            {
-                                tabla_simbolos.classHeap.agregar(new Simbolo(0,1));
-                            }
-                            var pos_mod = tabla_simbolos.classHeap.obtener(resultado_posicion.classValor);
-                            console.log("no habia memoria suficiente");
-                            pos_mod.classValor = simbolo_nuevo.classValor;
-                            pos_mod.classTam = simbolo_nuevo.classTam;
-                            return new Simbolo(-10,-4);
-                        }
+                        tabla_simbolos.classHeap.agregar(simbolo_nuevo,resultado_posicion.classValor);
+                        return new Simbolo(-10,-4);
                     }
                     else
                     {                        

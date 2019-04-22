@@ -66,35 +66,35 @@ var Menor_Igual_Que = /** @class */ (function (_super) {
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " <= " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " <= " + valor2.classValor;
                     return resultado;
                 case 54 /* menorigualque_caracter */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " <= " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " <= " + valor2.classValor;
                     return resultado;
                 case 55 /* menorigualque_booleano */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " <= " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " <= " + valor2.classValor;
                     return resultado;
                 case 56 /* menorigualque_numerico_caracter */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " <= " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " <= " + valor2.classValor;
                     return resultado;
                 case 57 /* menorigualque_caracter_numerico */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " <= " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " <= " + valor2.classValor;
                     return resultado;
                 case 73 /* error */:
                     Tabla_Simbolos_1.default.limpiar_3d();

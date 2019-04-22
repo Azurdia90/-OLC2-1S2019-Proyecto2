@@ -27,9 +27,20 @@ class Igual_Que extends Expresion
                 return new Simbolo(-33,-12);
             }
 
+            if(valor1.classTam == -12)
+            {
+                return valor1;
+            }
+
+            if(valor2.classTam == -12)
+            {
+                return valor2;
+            }
+
             var res_igual_que  : boolean; 
             var new_tam        : number; 
 
+            //console.log("compararemos: " + valor1.classValor + " == " + valor2.classValor );
             res_igual_que = valor1.classValor == valor2.classValor;
             new_tam  =  1;
             resultado = new Simbolo(res_igual_que == true ? 1 : 0, new_tam);

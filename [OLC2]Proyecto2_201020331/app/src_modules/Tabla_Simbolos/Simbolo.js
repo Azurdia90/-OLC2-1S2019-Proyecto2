@@ -2,16 +2,26 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Simbolo = /** @class */ (function () {
     function Simbolo() {
+        this._clase = "";
         this._acceso = 0 /* publico */;
         this._rol = 0 /* valor */;
         this._tipo = 0 /* nulo */;
         this._identificador = "";
-        this._in_heap = false;
         this._pos = 0;
         this._tam = 0;
     }
-    Object.defineProperty(Simbolo.prototype, "classAcceso", {
+    Object.defineProperty(Simbolo.prototype, "classClase", {
         //get y set
+        get: function () {
+            return this._clase;
+        },
+        set: function (p_clase) {
+            this._clase = p_clase;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Simbolo.prototype, "classAcceso", {
         get: function () {
             return this._acceso;
         },
@@ -61,13 +71,6 @@ var Simbolo = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Simbolo.prototype, "class_In_Heap", {
-        get: function () {
-            return this._in_heap;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Simbolo.prototype, "classPos", {
         get: function () {
             return this._pos;
@@ -84,13 +87,6 @@ var Simbolo = /** @class */ (function () {
         },
         set: function (p_tam) {
             this._tam = p_tam;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Simbolo.prototype, "classIn_Heap", {
-        set: function (p_in_heap) {
-            this._in_heap = p_in_heap;
         },
         enumerable: true,
         configurable: true

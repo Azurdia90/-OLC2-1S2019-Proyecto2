@@ -71,11 +71,10 @@ class AST_3D
                 return new Sentencia_Asignacion(subsuperjason['id'],subsuperjason['tipo'],expresion);
             }
             else
-            {
+            {                
                 var posicion = this.fabrica_expresiones(subsuperjason['posicion'])
                 return new Sentencia_Asignacion(subsuperjason['id'],subsuperjason['tipo'],expresion,posicion);
-            }
-            
+            }            
         }  
         else if(subsuperjason['etiqueta'] == "salto")
         {
@@ -97,14 +96,14 @@ class AST_3D
         }
         else if(subsuperjason['etiqueta'] == "sentencia_metodo")
         {
-            return new Sentencia_Metodo(subsuperjason['valor'], subsuperjason['valor2']);
+            return new Sentencia_Metodo(subsuperjason['valor'], subsuperjason['valor2'],this.lista_instrucciones);
         }
         else if(subsuperjason['etiqueta'] == "sentencia_llamada")
         {
             return new Sentencia_LLamada_Metodo(subsuperjason['valor'], this.lista_instrucciones);
         }
         else if(subsuperjason['etiqueta'] == "sentencia_imprimir")
-        {            
+        {     
             return new Sentencia_Imprimir(subsuperjason['tipo'],subsuperjason['valor']);
         }
         else
@@ -115,7 +114,7 @@ class AST_3D
     }
 
     fabrica_expresiones(subsubsuperjason: JSON)
-    {        
+    {      
         if(subsubsuperjason['etiqueta'] == "expresion_aritmetica")
         {
             if(subsubsuperjason['simbolo'] == '+')
@@ -199,13 +198,13 @@ class AST_3D
         else if(subsubsuperjason['etiqueta'] == "valor_primitivo")
         {
             
-            if(subsubsuperjason['tipo'] < 2 )
+            if(subsubsuperjason['tipo']  == 0 || subsubsuperjason['tipo']  == 1  || subsubsuperjason['tipo']  == 2 )
             {
                 return new Valor(subsubsuperjason['valor'], subsubsuperjason['tipo']);
             }
             else
-            {
-                var posicion = this.fabrica_expresiones(subsubsuperjason['pos']);
+            {          
+                var posicion = this.fabrica_expresiones(subsubsuperjason['posicion']);
                 return new Valor(subsubsuperjason['valor'], subsubsuperjason['tipo'],posicion);
             }
         }
@@ -224,8 +223,16 @@ class AST_3D
             var sentencia : any;
 
             sentencia = this.lista_instrucciones[i];
-            resultado = sentencia.ejecutar(tabla_simbolos.classTabla_Simbolos[0]);
-
+            
+            if(sentencia instanceof Sentencia_Metodo)
+            {
+                resultado = new Simbolo(-10,-4);
+            }
+            else
+            {
+                resultado = sentencia.ejecutar(tabla_simbolos.classTabla_Simbolos[0]);
+            }            
+            
             if(sentencia instanceof Sentencia_Salto_Incondicional)
             {
                 if(resultado.classValor > 0)
@@ -264,20 +271,6 @@ class AST_3D
                 {
                     break;
                 }                
-            }
-            else if(sentencia instanceof Sentencia_LLamada_Metodo)
-            {
-                if(resultado.classValor > - 11)
-                {
-                    if(resultado.classValor > 0)
-                    {
-                        i = resultado.classValor - 1;
-                    }                    
-                }
-                else
-                {
-                    break;
-                } 
             }
             else if(resultado.classTam == -12)
             {

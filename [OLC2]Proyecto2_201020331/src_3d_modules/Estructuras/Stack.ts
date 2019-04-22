@@ -2,36 +2,31 @@ import Simbolo from "./Simbolo";
 
 class Stack
 {
-    private simbolo_inicio : Simbolo;
+    private items : Simbolo[];
     private tamaño : number;
-    private vacio  : boolean;
 
     constructor()
     {
-        this.simbolo_inicio = new Simbolo(0,1);
-        this.tamaño = 0;
-        this.vacio = true;
+        this.items = Array<Simbolo>();
+        this.tamaño = this.items.length;
     }
 
     estavacia()
     {
-        return this.vacio;
-    }
-
-    agregar(nuevo_simbolo : Simbolo)
-    {
-        if(this.estavacia())
+        if(this.items.length < 1)
         {
-            this.simbolo_inicio = nuevo_simbolo;
-            this.vacio = false;
-            this.tamaño ++;            
+            return true;
         }
         else
         {
-            nuevo_simbolo.classNext = this.simbolo_inicio;
-            this.simbolo_inicio = nuevo_simbolo;
-            this.tamaño++;
+            return false;
         }
+    }
+
+    agregar(nuevo_simbolo : Simbolo, pos: number)
+    {        
+        this.items[pos]= nuevo_simbolo;
+        this.tamaño  = this.items.length;  
     }
     
     desapilar()
@@ -40,10 +35,9 @@ class Stack
 
         if(!this.estavacia())
         {
-            retorno = this.simbolo_inicio;
-            this.simbolo_inicio = this.simbolo_inicio.classNext;
-            this.tamaño--;
+            retorno = <Simbolo> this.items.pop();
 
+            this.tamaño = this.items.length;
             return retorno;
         }
         else
@@ -57,7 +51,7 @@ class Stack
     {
         if(!this.estavacia())
         {
-            return this.simbolo_inicio;
+            return this.items[this.classTamaño - 1];
         }
         else
         {
@@ -69,14 +63,9 @@ class Stack
     {
         if(!this.estavacia())
         {
-            if(this.tamaño > posicion)
-            {
-                var aux = this.simbolo_inicio;
-                for(var i = 1; i < posicion; i++)
-                {
-                    aux = aux.classNext;
-                }
-                return aux;
+            if(this.tamaño >= posicion)
+            {                
+                return <Simbolo> this.items[posicion];
             }            
             else
             {
@@ -91,9 +80,8 @@ class Stack
 
     vaciar()
     {
-        this.simbolo_inicio = new Simbolo(0,0);
-        this.tamaño = 1;
-        this.vacio = true;
+        this.items = new Array<Simbolo>();
+        this.tamaño = 0;
     }
 
     get classTamaño()
@@ -105,7 +93,6 @@ class Stack
     {
         this.tamaño = p_tamaño;
     }
-
 }
 
 export default Stack;

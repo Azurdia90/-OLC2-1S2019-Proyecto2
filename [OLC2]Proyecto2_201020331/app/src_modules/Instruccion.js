@@ -10,7 +10,7 @@ var Instruccion = /** @class */ (function () {
         this.columna = pcolumna;
         this.codigo_3D = "";
     }
-    Instruccion.prototype.ejecutar = function () {
+    Instruccion.prototype.ejecutar = function (entorno_local, ptr_entorno) {
         return new Simbolo_1.default();
     };
     return Instruccion;

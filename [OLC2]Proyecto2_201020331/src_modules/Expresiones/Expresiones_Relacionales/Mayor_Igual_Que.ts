@@ -68,7 +68,7 @@ class Mayor_Igual_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
                     resultado.classIdentificador = "10-4";                    
-                    resultado.classValor = valor1.classValor + " >= " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " >= " + valor2.classValor;
                     
                     return resultado;
                 case tipo_operacion.mayorigualque_caracter:
@@ -77,7 +77,7 @@ class Mayor_Igual_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
                     resultado.classIdentificador = "10-4";                    
-                    resultado.classValor = valor1.classValor + " >= " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " >= " + valor2.classValor;
                     
                     return resultado;      
                 case tipo_operacion.mayorigualque_booleano:                    
@@ -86,7 +86,7 @@ class Mayor_Igual_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;                    
                     resultado.classIdentificador = "10-4";                    
-                    resultado.classValor = valor1.classValor + " >= " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " >= " + valor2.classValor;
                     
                     return resultado;
                 case tipo_operacion.mayorigualque_numerico_caracter:
@@ -95,7 +95,7 @@ class Mayor_Igual_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " >= " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " >= " + valor2.classValor;
                     
                     return resultado;
                 case tipo_operacion.mayorigualque_caracter_numerico:
@@ -104,7 +104,7 @@ class Mayor_Igual_Que extends Expresion
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " >= " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " >= " + valor2.classValor;
                     
                     return resultado;                 
                 case tipo_operacion.error: 

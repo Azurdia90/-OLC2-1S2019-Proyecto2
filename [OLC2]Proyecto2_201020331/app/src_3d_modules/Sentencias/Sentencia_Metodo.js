@@ -41,10 +41,11 @@ var Tabla_Simbolos_1 = __importDefault(require("../Estructuras/Tabla_Simbolos"))
 var Sentencia_LLamada_Metodo_1 = __importDefault(require("./Sentencia_LLamada_Metodo"));
 var Sentencia_Metodo = /** @class */ (function (_super) {
     __extends(Sentencia_Metodo, _super);
-    function Sentencia_Metodo(p_id, p_subsuperjason) {
+    function Sentencia_Metodo(p_id, p_subsuperjason, p_lista_instrucciones_padre) {
         var _this = _super.call(this, 0, 0) || this;
         _this.identificador = p_id;
         _this.subsuperjason = p_subsuperjason;
+        _this.lista_instrucciones_padre = p_lista_instrucciones_padre;
         _this.lista_instrucciones = new Array();
         for (var i = 0; i < _this.subsuperjason['sentencias'].length; i++) {
             _this.lista_instrucciones.push(_this.fabrica_instrucciones(_this.subsuperjason['sentencias'][i]));
@@ -89,7 +90,7 @@ var Sentencia_Metodo = /** @class */ (function (_super) {
             return new Sentencia_LLamada_Metodo_1.default(subsuperjason['valor'], this.lista_instrucciones);
         }
         else if (subsuperjason['etiqueta'] == "sentencia_imprimir") {
-            return new Sentencia_Imprimir_1.default(subsuperjason['tipo_impresion'], subsuperjason['valor']);
+            return new Sentencia_Imprimir_1.default(subsuperjason['tipo'], subsuperjason['valor']);
         }
         else {
         }
@@ -160,11 +161,12 @@ var Sentencia_Metodo = /** @class */ (function (_super) {
             }
         }
         else if (subsubsuperjason['etiqueta'] == "valor_primitivo") {
-            if (subsubsuperjason['tipo'] < 2) {
+            if (subsubsuperjason['tipo'] == 0 || subsubsuperjason['tipo'] == 1 || subsubsuperjason['tipo'] == 2) {
                 return new Valor_1.default(subsubsuperjason['valor'], subsubsuperjason['tipo']);
             }
             else {
-                return new Valor_1.default(subsubsuperjason['valor'], subsubsuperjason['tipo'], subsubsuperjason['pos']);
+                var posicion = this.fabrica_expresiones(subsubsuperjason['posicion']);
+                return new Valor_1.default(subsubsuperjason['valor'], subsubsuperjason['tipo'], posicion);
             }
         }
         else {
@@ -207,16 +209,6 @@ var Sentencia_Metodo = /** @class */ (function (_super) {
                     }
                     else {
                         Tabla_Simbolos_1.default.eliminar_entorno();
-                        break;
-                    }
-                }
-                else if (sentencia instanceof Sentencia_LLamada_Metodo_1.default) {
-                    if (resultado.classValor > -11) {
-                        if (resultado.classValor > 0) {
-                            i = resultado.classValor;
-                        }
-                    }
-                    else {
                         break;
                     }
                 }

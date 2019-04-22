@@ -63,14 +63,14 @@ class Tabla_Simbolos
     }
 
     crear_entorno(entorno_local : Map<String,Simbolo>)
-    {
-        this.tam_entorno++;
+    {        
         this.lista_entorno[this.tam_entorno] = entorno_local;        
+        this.tam_entorno++;
     }
 
     eliminar_entorno()
     {
-        this.lista_entorno[this.tam_entorno] = new Map<String,Simbolo>();
+        this.lista_entorno[(this.tam_entorno-1)] = new Map<String,Simbolo>();
         this.tam_entorno--;
     }
 
@@ -91,7 +91,7 @@ class Tabla_Simbolos
     existe_simbolo(p_id : String)
     {
         for(var i = (this.tam_entorno-1); i > -1; i--)
-        {
+        {            
             var entorno_aux : Map<String,Simbolo> = this.lista_entorno[i];
             if(entorno_aux.has(p_id))
             {

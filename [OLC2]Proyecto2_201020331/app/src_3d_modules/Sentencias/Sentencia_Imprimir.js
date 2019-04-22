@@ -30,18 +30,17 @@ var Sentencia_Imprimir = /** @class */ (function (_super) {
     }
     Sentencia_Imprimir.prototype.ejecutar = function (entorno_local) {
         try {
-            if (entorno_local != undefined && (entorno_local.has(this.id))) {
-                var resultado = entorno_local.get(this.id);
+            if (entorno_local != undefined && (Tabla_Simbolos_1.default.existe_simbolo(this.id))) {
+                var resultado = Tabla_Simbolos_1.default.obtener_simbolo(this.id);
                 if (resultado != undefined) {
-                    console.log("este es el tipo de dato: " + this.tipo_dato);
                     if (this.tipo_dato == "%e") {
-                        Tabla_Simbolos_1.default.classConsola = resultado.classValor + "\n";
+                        Tabla_Simbolos_1.default.classConsola = (resultado.classValor).toFixed(0);
                     }
                     else if (this.tipo_dato == "%d") {
-                        Tabla_Simbolos_1.default.classConsola = (resultado.classValor).toFixed(2) + "\n";
+                        Tabla_Simbolos_1.default.classConsola = (resultado.classValor).toFixed(2);
                     }
                     else if (this.tipo_dato == "%c") {
-                        Tabla_Simbolos_1.default.classConsola = String.fromCharCode(resultado.classValor) + "\n";
+                        Tabla_Simbolos_1.default.classConsola = String.fromCharCode(resultado.classValor);
                     }
                     else {
                         console.log("Error Tipo Dato no reconocido");

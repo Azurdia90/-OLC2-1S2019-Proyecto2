@@ -6,31 +6,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Simbolo_1 = __importDefault(require("./Simbolo"));
 var Stack = /** @class */ (function () {
     function Stack() {
-        this.simbolo_inicio = new Simbolo_1.default(0, 1);
-        this.tamaño = 0;
-        this.vacio = true;
+        this.items = Array();
+        this.tamaño = this.items.length;
     }
     Stack.prototype.estavacia = function () {
-        return this.vacio;
-    };
-    Stack.prototype.agregar = function (nuevo_simbolo) {
-        if (this.estavacia()) {
-            this.simbolo_inicio = nuevo_simbolo;
-            this.vacio = false;
-            this.tamaño++;
+        if (this.items.length < 1) {
+            return true;
         }
         else {
-            nuevo_simbolo.classNext = this.simbolo_inicio;
-            this.simbolo_inicio = nuevo_simbolo;
-            this.tamaño++;
+            return false;
         }
+    };
+    Stack.prototype.agregar = function (nuevo_simbolo, pos) {
+        this.items[pos] = nuevo_simbolo;
+        this.tamaño = this.items.length;
     };
     Stack.prototype.desapilar = function () {
         var retorno;
         if (!this.estavacia()) {
-            retorno = this.simbolo_inicio;
-            this.simbolo_inicio = this.simbolo_inicio.classNext;
-            this.tamaño--;
+            retorno = this.items.pop();
+            this.tamaño = this.items.length;
             return retorno;
         }
         else {
@@ -40,7 +35,7 @@ var Stack = /** @class */ (function () {
     };
     Stack.prototype.peek = function () {
         if (!this.estavacia()) {
-            return this.simbolo_inicio;
+            return this.items[this.classTamaño - 1];
         }
         else {
             return new Simbolo_1.default(-33, -12);
@@ -48,12 +43,8 @@ var Stack = /** @class */ (function () {
     };
     Stack.prototype.obtener = function (posicion) {
         if (!this.estavacia()) {
-            if (this.tamaño > posicion) {
-                var aux = this.simbolo_inicio;
-                for (var i = 1; i < posicion; i++) {
-                    aux = aux.classNext;
-                }
-                return aux;
+            if (this.tamaño >= posicion) {
+                return this.items[posicion];
             }
             else {
                 return new Simbolo_1.default(-33, -12);
@@ -64,9 +55,8 @@ var Stack = /** @class */ (function () {
         }
     };
     Stack.prototype.vaciar = function () {
-        this.simbolo_inicio = new Simbolo_1.default(0, 0);
-        this.tamaño = 1;
-        this.vacio = true;
+        this.items = new Array();
+        this.tamaño = 0;
     };
     Object.defineProperty(Stack.prototype, "classTama\u00F1o", {
         get: function () {

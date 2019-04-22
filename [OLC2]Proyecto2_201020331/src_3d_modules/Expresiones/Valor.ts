@@ -15,7 +15,7 @@ class Valor
      * 3. stack
      * 4. heap
      */
-    constructor(p_valor : string, p_tipo : number, p_pos? :Expresion | Valor)
+    constructor(p_valor : string, p_tipo : number, p_pos? :Valor)
     {
         this.valor = p_valor;
         this.tipo = p_tipo;
@@ -48,6 +48,7 @@ class Valor
             console.log("Vamos a devolver valor de la variable : "  + this.valor);
             if(tabla_simbolos.existe_simbolo(this.valor))
             {
+                var resultado = tabla_simbolos.obtener_simbolo(this.valor);             
                 return tabla_simbolos.obtener_simbolo(this.valor);
             }
             else
@@ -70,12 +71,12 @@ class Valor
             }
         }
         else if(this.tipo == 4)
-        {
+        {   
             var resultado_pos : Simbolo = this.pos.ejecutar(entorno_local);
 
             if(tabla_simbolos.classHeap.classTamaño > resultado_pos.classValor)
-            {
-                console.log("vamos a devolver valor de la posicion del heap: " + resultado_pos.classValor);
+            {                
+                console.log("vamos a devolver valor de la posicion del Heap: " + resultado_pos.classValor);
                 return tabla_simbolos.classHeap.obtener(resultado_pos.classValor);
             }
             else

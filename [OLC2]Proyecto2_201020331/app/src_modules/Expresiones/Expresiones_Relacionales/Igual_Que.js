@@ -66,42 +66,42 @@ var Igual_Que = /** @class */ (function (_super) {
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classIdentificador = "10-4";
                     resultado.classTipo = 1 /* booleano */;
-                    resultado.classValor = valor1.classValor + " == " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " == " + valor2.classValor;
                     return resultado;
                 case 64 /* igual_caracter */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " == " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " == " + valor2.classValor;
                     return resultado;
                 case 65 /* igual_booleano */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " == " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " == " + valor2.classValor;
                     return resultado;
                 case 66 /* igual_numerico_caracter */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " == " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " == " + valor2.classValor;
                     return resultado;
                 case 67 /* igual_caracter_numerico */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " == " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " == " + valor2.classValor;
                     return resultado;
                 case 71 /* igual_nulo */:
                     resultado.classAcceso = 0 /* publico */;
                     resultado.classRol = 9 /* aceptado */;
                     resultado.classTipo = 1 /* booleano */;
                     resultado.classIdentificador = "10-4";
-                    resultado.classValor = valor1.classValor + " == " + valor2.classValor + "\n";
+                    resultado.classValor = valor1.classValor + " == " + valor2.classValor;
                     return resultado;
                 case 73 /* error */:
                     Tabla_Simbolos_1.default.limpiar_3d();

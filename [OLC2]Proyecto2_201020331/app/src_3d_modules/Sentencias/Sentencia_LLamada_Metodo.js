@@ -33,7 +33,8 @@ var Sentencia_LLamada_Metodo = /** @class */ (function (_super) {
                 if (this.lista_instrucciones[i] instanceof Sentencia_Metodo_1.default) {
                     var destino = this.lista_instrucciones[i];
                     if (destino.classId == this.identificador) {
-                        return new Simbolo_1.default(i, 1);
+                        destino.ejecutar(entorno_local);
+                        return new Simbolo_1.default(-10, -14);
                     }
                 }
             }

@@ -57,11 +57,11 @@ var Tabla_Simbolos = /** @class */ (function () {
         configurable: true
     });
     Tabla_Simbolos.prototype.crear_entorno = function (entorno_local) {
-        this.tam_entorno++;
         this.lista_entorno[this.tam_entorno] = entorno_local;
+        this.tam_entorno++;
     };
     Tabla_Simbolos.prototype.eliminar_entorno = function () {
-        this.lista_entorno[this.tam_entorno] = new Map();
+        this.lista_entorno[(this.tam_entorno - 1)] = new Map();
         this.tam_entorno--;
     };
     Tabla_Simbolos.prototype.obtener_simbolo = function (p_id) {

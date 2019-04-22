@@ -1,8 +1,6 @@
 import tabla_simbolos from "../Estructuras/Tabla_Simbolos";
 import Simbolo from "../Estructuras/Simbolo";
 import Instruccion from "../Instruccion";
-import Tabla_Simbolos from "../Estructuras/Tabla_Simbolos";
-
 
 class Sentencia_Imprimir extends Instruccion
 {
@@ -23,23 +21,23 @@ class Sentencia_Imprimir extends Instruccion
     {
         try
         {
-            if(entorno_local != undefined && (entorno_local.has(this.id)) )
+            if(entorno_local != undefined && (tabla_simbolos.existe_simbolo(this.id)))
             {   
-                var resultado = entorno_local.get(this.id);
+                var resultado = tabla_simbolos.obtener_simbolo(this.id);
+
                 if(resultado != undefined)
-                {
-                    console.log("este es el tipo de dato: " + this.tipo_dato);
+                {                    
                     if(this.tipo_dato == "%e")
                     {
-                        tabla_simbolos.classConsola = resultado.classValor + "\n";
+                        tabla_simbolos.classConsola = (resultado.classValor).toFixed(0);
                     }
                     else if(this.tipo_dato == "%d")
                     {
-                        tabla_simbolos.classConsola = (resultado.classValor).toFixed(2) + "\n";
+                        tabla_simbolos.classConsola = (resultado.classValor).toFixed(2);
                     }
                     else if(this.tipo_dato == "%c")
                     {
-                        tabla_simbolos.classConsola = String.fromCharCode(resultado.classValor) + "\n";
+                        tabla_simbolos.classConsola = String.fromCharCode(resultado.classValor);
                     }
                     else
                     {

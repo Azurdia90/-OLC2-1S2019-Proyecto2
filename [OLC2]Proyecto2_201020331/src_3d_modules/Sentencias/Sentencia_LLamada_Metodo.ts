@@ -25,7 +25,8 @@ class Sentencia_LLamada_Metodo extends Instruccion
                     var destino : Sentencia_Metodo = <Sentencia_Metodo> this.lista_instrucciones[i];
                     if(destino.classId == this.identificador)
                     {
-                        return new Simbolo(i,1);
+                        destino.ejecutar(entorno_local);
+                        return new Simbolo(-10,-14);
                     }                    
                 }
             }

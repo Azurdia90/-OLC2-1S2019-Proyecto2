@@ -26,14 +26,16 @@ class Sentencia_Metodo extends Instruccion
 {
     private identificador : String;
     private subsuperjason : JSON;
+    private lista_instrucciones_padre : Array<Instruccion>;
     private lista_instrucciones : Array<Instruccion>;
     private entorno_local : any; //lo creamos hasta que vayamos a ejecutar
 
-    constructor(p_id : String, p_subsuperjason : JSON)
+    constructor(p_id : String, p_subsuperjason : JSON, p_lista_instrucciones_padre : Array<Instruccion>)
     {
         super(0,0);
         this.identificador = p_id;
         this.subsuperjason = p_subsuperjason;
+        this.lista_instrucciones_padre = p_lista_instrucciones_padre;
         this.lista_instrucciones = new Array<Instruccion>();
         for(var i :number = 0; i < this.subsuperjason['sentencias'].length; i++ )
         {            
@@ -66,8 +68,7 @@ class Sentencia_Metodo extends Instruccion
             {
                 var posicion = this.fabrica_expresiones(subsuperjason['posicion'])
                 return new Sentencia_Asignacion(subsuperjason['id'],subsuperjason['tipo'],expresion,posicion);
-            }
-            
+            }            
         }  
         else if(subsuperjason['etiqueta'] == "salto")
         {
@@ -93,7 +94,7 @@ class Sentencia_Metodo extends Instruccion
         }
         else if(subsuperjason['etiqueta'] == "sentencia_imprimir")
         {            
-            return new Sentencia_Imprimir(subsuperjason['tipo_impresion'],subsuperjason['valor']);
+            return new Sentencia_Imprimir(subsuperjason['tipo'],subsuperjason['valor']);
         }
         else
         {
@@ -187,13 +188,14 @@ class Sentencia_Metodo extends Instruccion
         else if(subsubsuperjason['etiqueta'] == "valor_primitivo")
         {
             
-            if(subsubsuperjason['tipo'] < 2 )
+            if(subsubsuperjason['tipo']  == 0 || subsubsuperjason['tipo']  == 1  || subsubsuperjason['tipo']  == 2)
             {
                 return new Valor(subsubsuperjason['valor'], subsubsuperjason['tipo']);
             }
             else
             {
-                return new Valor(subsubsuperjason['valor'], subsubsuperjason['tipo'],subsubsuperjason['pos']);
+                var posicion = this.fabrica_expresiones(subsubsuperjason['posicion']);                
+                return new Valor(subsubsuperjason['valor'], subsubsuperjason['tipo'],posicion);
             }
         }
         else
@@ -207,7 +209,7 @@ class Sentencia_Metodo extends Instruccion
         try
         {
             this.entorno_local = new Map<String,Simbolo>();
-            tabla_simbolos.crear_entorno(<Map<String,Simbolo>> this.entorno_local);
+            tabla_simbolos.crear_entorno(this.entorno_local);
 
             for(var i = 0; i < this.lista_instrucciones.length; i++)
             {            
@@ -258,20 +260,6 @@ class Sentencia_Metodo extends Instruccion
                         tabla_simbolos.eliminar_entorno();
                         break;
                     }                
-                }
-                else if(sentencia instanceof Sentencia_LLamada_Metodo)
-                {
-                    if(resultado.classValor > - 11)
-                    {
-                        if(resultado.classValor > 0)
-                        {
-                            i = resultado.classValor;
-                        }                    
-                    }
-                    else
-                    {
-                        break;
-                    } 
                 }
                 else if(resultado.classTam == -12)
                 {

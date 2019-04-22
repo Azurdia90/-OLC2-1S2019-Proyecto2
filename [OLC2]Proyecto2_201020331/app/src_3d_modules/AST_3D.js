@@ -21,6 +21,7 @@ var Mayor_Igual_Que_1 = __importDefault(require("./Expresiones/Expresiones_Relac
 var Menor_Igual_Que_1 = __importDefault(require("./Expresiones/Expresiones_Relacionales/Menor_Igual_Que"));
 var Tabla_Simbolos_1 = __importDefault(require("./Estructuras/Tabla_Simbolos"));
 var Sentencia_Salto_Destino_1 = __importDefault(require("./Sentencias/Sentencia_Salto_Destino"));
+var Simbolo_1 = __importDefault(require("./Estructuras/Simbolo"));
 var Sentencia_Saldo_Incondicional_1 = __importDefault(require("./Sentencias/Sentencia_Saldo_Incondicional"));
 var console_1 = require("console");
 var Sentencia_If_1 = __importDefault(require("./Sentencias/Sentencia_If"));
@@ -77,7 +78,7 @@ var AST_3D = /** @class */ (function () {
             return new Sentencia_If_False_1.default(expresion_relacional, subsuperjason['falso'], this.lista_instrucciones);
         }
         else if (subsuperjason['etiqueta'] == "sentencia_metodo") {
-            return new Sentencia_Metodo_1.default(subsuperjason['valor'], subsuperjason['valor2']);
+            return new Sentencia_Metodo_1.default(subsuperjason['valor'], subsuperjason['valor2'], this.lista_instrucciones);
         }
         else if (subsuperjason['etiqueta'] == "sentencia_llamada") {
             return new Sentencia_LLamada_Metodo_1.default(subsuperjason['valor'], this.lista_instrucciones);
@@ -154,11 +155,11 @@ var AST_3D = /** @class */ (function () {
             }
         }
         else if (subsubsuperjason['etiqueta'] == "valor_primitivo") {
-            if (subsubsuperjason['tipo'] < 2) {
+            if (subsubsuperjason['tipo'] == 0 || subsubsuperjason['tipo'] == 1 || subsubsuperjason['tipo'] == 2) {
                 return new Valor_1.default(subsubsuperjason['valor'], subsubsuperjason['tipo']);
             }
             else {
-                var posicion = this.fabrica_expresiones(subsubsuperjason['pos']);
+                var posicion = this.fabrica_expresiones(subsubsuperjason['posicion']);
                 return new Valor_1.default(subsubsuperjason['valor'], subsubsuperjason['tipo'], posicion);
             }
         }
@@ -171,7 +172,12 @@ var AST_3D = /** @class */ (function () {
             var resultado;
             var sentencia;
             sentencia = this.lista_instrucciones[i];
-            resultado = sentencia.ejecutar(Tabla_Simbolos_1.default.classTabla_Simbolos[0]);
+            if (sentencia instanceof Sentencia_Metodo_1.default) {
+                resultado = new Simbolo_1.default(-10, -4);
+            }
+            else {
+                resultado = sentencia.ejecutar(Tabla_Simbolos_1.default.classTabla_Simbolos[0]);
+            }
             if (sentencia instanceof Sentencia_Saldo_Incondicional_1.default) {
                 if (resultado.classValor > 0) {
                     i = resultado.classValor - 1;
@@ -191,16 +197,6 @@ var AST_3D = /** @class */ (function () {
                 }
             }
             else if (sentencia instanceof Sentencia_If_False_1.default) {
-                if (resultado.classValor > -11) {
-                    if (resultado.classValor > 0) {
-                        i = resultado.classValor - 1;
-                    }
-                }
-                else {
-                    break;
-                }
-            }
-            else if (sentencia instanceof Sentencia_LLamada_Metodo_1.default) {
                 if (resultado.classValor > -11) {
                     if (resultado.classValor > 0) {
                         i = resultado.classValor - 1;
