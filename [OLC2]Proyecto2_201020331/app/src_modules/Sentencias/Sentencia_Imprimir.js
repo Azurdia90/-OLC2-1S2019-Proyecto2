@@ -32,7 +32,7 @@ var Sentencia_Imprimir = /** @class */ (function (_super) {
             var resultado;
             var simbolo_exp;
             if (this.expresion instanceof Expresion_1.default) {
-                simbolo_exp = this.expresion.ejecutar();
+                simbolo_exp = this.expresion.ejecutar(entorno_local, ptr_entorno);
                 if (simbolo_exp.classRol == 10 /* error */) {
                     Tabla_Simbolos_1.default.limpiar_3d();
                     return simbolo_exp;
@@ -55,20 +55,49 @@ var Sentencia_Imprimir = /** @class */ (function (_super) {
                 resultado.classValor = "Impresión No realizada: No existe un valor a imprimir";
                 return resultado;
             }
+            var tam_metodo = ptr_entorno[0];
+            var temporal_simulado = "t" + Tabla_Simbolos_1.default.classTemporal;
+            var temporal_contador = "t" + Tabla_Simbolos_1.default.classTemporal;
+            Tabla_Simbolos_1.default.classCodigo_3D = "\n";
             if (simbolo_exp.classTipo == 1 /* booleano */) {
-                Tabla_Simbolos_1.default.classCodigo_3D = "t0 = " + simbolo_exp.classValor + ";\ncall imprimir_booleano;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = temporal_simulado + " = P + " + tam_metodo + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = temporal_contador + " = " + temporal_simulado + " +  2;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "Stack[" + temporal_contador + "] = " + simbolo_exp.classValor + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "P = P + " + tam_metodo + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "call imprimir_booleano;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "P = P - " + tam_metodo + ";\n";
             }
             else if (simbolo_exp.classTipo == 2 /* entero */) {
-                Tabla_Simbolos_1.default.classCodigo_3D = "t1 = " + simbolo_exp.classValor + ";\ncall imprimir_entero;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = temporal_simulado + " = P + " + tam_metodo + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = temporal_contador + " = " + temporal_simulado + " +  2;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "Stack[" + temporal_contador + "] = " + simbolo_exp.classValor + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "P = P + " + tam_metodo + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "call imprimir_entero;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "P = P - " + tam_metodo + ";\n";
             }
             else if (simbolo_exp.classTipo == 3 /* decimal */) {
-                Tabla_Simbolos_1.default.classCodigo_3D = "t2 =" + simbolo_exp.classValor + ";\ncall imprimir_decimal;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = temporal_simulado + " = P + " + tam_metodo + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = temporal_contador + " = " + temporal_simulado + " +  2;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "Stack[" + temporal_contador + "] = " + simbolo_exp.classValor + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "P = P + " + tam_metodo + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "call imprimir_decimal;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "P = P - " + tam_metodo + ";\n";
             }
             else if (simbolo_exp.classTipo == 4 /* caracter */) {
-                Tabla_Simbolos_1.default.classCodigo_3D = "t3 = " + simbolo_exp.classValor + ";\ncall imprimir_caracter;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = temporal_simulado + " = P + " + tam_metodo + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = temporal_contador + " = " + temporal_simulado + " +  2;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "Stack[" + temporal_contador + "] = " + simbolo_exp.classValor + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "P = P + " + tam_metodo + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "call imprimir_caracter;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "P = P - " + tam_metodo + ";\n";
             }
             else if (simbolo_exp.classTipo == 5 /* cadena */) {
-                Tabla_Simbolos_1.default.classCodigo_3D = "t4 = " + simbolo_exp.classValor + ";\ncall imprimir_cadena;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = temporal_simulado + " = P + " + tam_metodo + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = temporal_contador + " = " + temporal_simulado + " +  2;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "Stack[" + temporal_contador + "] = " + simbolo_exp.classValor + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "P = P + " + tam_metodo + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "call imprimir_cadena;\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "P = P - " + tam_metodo + ";\n";
             }
             else {
                 console.log("algo esta mal aca: " + simbolo_exp.classTipo);

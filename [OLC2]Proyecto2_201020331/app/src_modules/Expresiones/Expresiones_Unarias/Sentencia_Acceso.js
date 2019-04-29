@@ -28,7 +28,7 @@ var Sentencia_Acceso = /** @class */ (function (_super) {
         _this.posicion = p_posicion;
         return _this;
     }
-    Sentencia_Acceso.prototype.ejecutar = function () {
+    Sentencia_Acceso.prototype.ejecutar = function (entorno_padre, ptr_entorno) {
         try {
             if (this.tipo == 0) {
                 if (Tabla_Simbolos_1.default.existe_simbolo(this.identificador)) {
@@ -36,6 +36,7 @@ var Sentencia_Acceso = /** @class */ (function (_super) {
                     if (retorno != undefined) {
                         var temporal_posicion_stack = "t" + Tabla_Simbolos_1.default.classTemporal;
                         var temporal_acceso = "t" + Tabla_Simbolos_1.default.classTemporal;
+                        Tabla_Simbolos_1.default.classCodigo_3D = "\n";
                         Tabla_Simbolos_1.default.classCodigo_3D = temporal_posicion_stack + " = P + " + retorno.classPos + ";\n";
                         Tabla_Simbolos_1.default.classCodigo_3D = temporal_acceso + " = Stack[" + temporal_posicion_stack + "];\n";
                         var resultado = new Simbolo_1.default();
@@ -87,7 +88,7 @@ var Sentencia_Acceso = /** @class */ (function (_super) {
                         for (var i = 0; i < this.posicion.length; i++) {
                             var tam_dim;
                             if (this.posicion[i] instanceof Expresion_1.default) {
-                                tam_dim = this.posicion[i].ejecutar();
+                                tam_dim = this.posicion[i].ejecutar(entorno_padre, ptr_entorno);
                             }
                             else if (this.posicion[i] instanceof Simbolo_1.default) {
                                 tam_dim = this.posicion[i];
@@ -145,6 +146,106 @@ var Sentencia_Acceso = /** @class */ (function (_super) {
         }
         catch (Error) {
             Tabla_Simbolos_1.default.limpiar_3d();
+            var resultado = new Simbolo_1.default();
+            resultado.classAcceso = 0 /* publico */;
+            resultado.classRol = 10 /* error */;
+            resultado.classTipo = 5 /* cadena */;
+            resultado.classIdentificador = "33-12";
+            resultado.classValor = "Acceso No realizado correctamente: " + Error.Message;
+            return resultado;
+        }
+    };
+    Sentencia_Acceso.prototype.evaluar = function (entorno_padre, ptr_entorno) {
+        try {
+            if (this.tipo == 0) {
+                if (Tabla_Simbolos_1.default.existe_simbolo(this.identificador)) {
+                    var retorno = Tabla_Simbolos_1.default.obtener_simbolo(this.identificador);
+                    if (retorno != undefined) {
+                        var resultado = new Simbolo_1.default();
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classRol = retorno.classRol;
+                        resultado.classTipo = retorno.classTipo;
+                        resultado.classIdentificador = retorno.classIdentificador;
+                        resultado.classValor = "10-4";
+                        resultado.classPos = retorno.classPos;
+                        resultado.classTam = retorno.classTam;
+                        return resultado;
+                    }
+                    else {
+                        var resultado = new Simbolo_1.default();
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classRol = 10 /* error */;
+                        resultado.classTipo = 5 /* cadena */;
+                        resultado.classIdentificador = "33-12";
+                        resultado.classValor = "La variable \"" + this.identificador + "\" no existe.";
+                        return resultado;
+                    }
+                }
+                else {
+                    var resultado = new Simbolo_1.default();
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 10 /* error */;
+                    resultado.classTipo = 5 /* cadena */;
+                    resultado.classIdentificador = "33-12";
+                    resultado.classValor = "La variable \"" + this.identificador + "\" no existe.";
+                    return resultado;
+                }
+            }
+            else if (this.tipo == 1) {
+                if (Tabla_Simbolos_1.default.existe_simbolo(this.identificador)) {
+                    var retorno = Tabla_Simbolos_1.default.obtener_simbolo(this.identificador);
+                    if (retorno != undefined) {
+                        for (var i = 0; i < this.posicion.length; i++) {
+                            var tam_dim;
+                            if (this.posicion[i] instanceof Expresion_1.default) {
+                                tam_dim = this.posicion[i].evaluar(entorno_padre, ptr_entorno);
+                            }
+                            else if (this.posicion[i] instanceof Simbolo_1.default) {
+                                tam_dim = this.posicion[i];
+                            }
+                            else {
+                                tam_dim = new Simbolo_1.default();
+                            }
+                        }
+                        var resultado = new Simbolo_1.default();
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classRol = 9 /* aceptado */;
+                        resultado.classTipo = retorno.classTipo;
+                        resultado.classIdentificador = retorno.classIdentificador;
+                        resultado.classValor = "10-4";
+                        return resultado;
+                    }
+                    else {
+                        var resultado = new Simbolo_1.default();
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classRol = 10 /* error */;
+                        resultado.classTipo = 5 /* cadena */;
+                        resultado.classIdentificador = "33-12";
+                        resultado.classValor = "El retorno \"" + this.identificador + "\" no existe.";
+                        return resultado;
+                    }
+                }
+                else {
+                    var resultado = new Simbolo_1.default();
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 10 /* error */;
+                    resultado.classTipo = 5 /* cadena */;
+                    resultado.classIdentificador = "33-12";
+                    resultado.classValor = "La variable \"" + this.identificador + "\" no existe.";
+                    return resultado;
+                }
+            }
+            else {
+                var resultado = new Simbolo_1.default();
+                resultado.classAcceso = 0 /* publico */;
+                resultado.classRol = 10 /* error */;
+                resultado.classTipo = 5 /* cadena */;
+                resultado.classIdentificador = "33-12";
+                resultado.classValor = "Acceso No realizado correctamente: Funcionalidad No implementada Aun.";
+                return resultado;
+            }
+        }
+        catch (Error) {
             var resultado = new Simbolo_1.default();
             resultado.classAcceso = 0 /* publico */;
             resultado.classRol = 10 /* error */;

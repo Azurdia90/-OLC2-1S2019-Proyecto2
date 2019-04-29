@@ -124,6 +124,93 @@ var Menor_Igual_Que = /** @class */ (function (_super) {
             return resultado;
         }
     };
+    Menor_Igual_Que.prototype.evaluar = function (entorno_padre, ptr_entorno) {
+        var tipo_menor_igual_que;
+        var valor1;
+        var valor2;
+        var resultado;
+        try {
+            if (this.operador1 instanceof Expresion_1.default) {
+                valor1 = this.operador1.evaluar(entorno_padre, ptr_entorno);
+            }
+            else {
+                valor1 = this.operador1;
+            }
+            if (this.operador2 instanceof Expresion_1.default) {
+                valor2 = this.operador2.evaluar(entorno_padre, ptr_entorno);
+            }
+            else {
+                valor2 = this.operador2;
+            }
+            if (valor1.classRol == 10 /* error */) {
+                return valor1;
+            }
+            if (valor2.classRol == 10 /* error */) {
+                return valor2;
+            }
+            tipo_menor_igual_que = this.tabla_menor_igual_que[valor1.classTipo][valor2.classTipo];
+            resultado = new Simbolo_1.default();
+            switch (tipo_menor_igual_que) {
+                case 53 /* menorigualque_numerico */:
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 9 /* aceptado */;
+                    resultado.classTipo = 1 /* booleano */;
+                    resultado.classIdentificador = "10-4";
+                    resultado.classValor = "10-4";
+                    return resultado;
+                case 54 /* menorigualque_caracter */:
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 9 /* aceptado */;
+                    resultado.classTipo = 1 /* booleano */;
+                    resultado.classIdentificador = "10-4";
+                    resultado.classValor = "10-4";
+                    return resultado;
+                case 55 /* menorigualque_booleano */:
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 9 /* aceptado */;
+                    resultado.classTipo = 1 /* booleano */;
+                    resultado.classIdentificador = "10-4";
+                    resultado.classValor = "10-4";
+                    return resultado;
+                case 56 /* menorigualque_numerico_caracter */:
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 9 /* aceptado */;
+                    resultado.classTipo = 1 /* booleano */;
+                    resultado.classIdentificador = "10-4";
+                    resultado.classValor = "10-4";
+                    return resultado;
+                case 57 /* menorigualque_caracter_numerico */:
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 9 /* aceptado */;
+                    resultado.classTipo = 1 /* booleano */;
+                    resultado.classIdentificador = "10-4";
+                    resultado.classValor = "10-4";
+                    return resultado;
+                case 73 /* error */:
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 10 /* error */;
+                    resultado.classTipo = 6 /* error */;
+                    resultado.classIdentificador = this.fila + "-" + this.columna;
+                    resultado.classValor("No es posible relacionar un valor del tipo " + valor1.classTipo + " con un valor tipo " + valor2.classTipo + ".");
+                    return resultado;
+                default:
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 10 /* error */;
+                    resultado.classTipo = 6 /* error */;
+                    resultado.classIdentificador = this.fila + "-" + this.columna;
+                    resultado.classValor("No es posible realizar menor igual que, verifique los valores.");
+                    return resultado;
+            }
+        }
+        catch (Error) {
+            resultado = new Simbolo_1.default();
+            resultado.classRol = 10 /* error */;
+            resultado.classTipo = 6 /* error */;
+            resultado.classIdentificador = this.fila + "-" + this.columna;
+            resultado.classValor = "Error: " + Error.message;
+            return resultado;
+        }
+    };
     return Menor_Igual_Que;
 }(Expresion_1.default));
 exports.default = Menor_Igual_Que;

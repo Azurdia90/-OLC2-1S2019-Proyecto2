@@ -27,7 +27,26 @@ var Expresion = /** @class */ (function (_super) {
         _this.operador2 = p_operador2;
         return _this;
     }
-    Expresion.prototype.ejecutar = function () {
+    Expresion.prototype.ejecutar = function (entorno_padre, ptr_entorno) {
+        try {
+            var resultado = new Simbolo_1.default();
+            resultado.classAcceso = 0 /* publico */;
+            resultado.classRol = 9 /* aceptado */;
+            resultado.classTipo = 5 /* cadena */;
+            resultado.classIdentificador = "10-4";
+            resultado.classValor = "Impresión realizada correctamente";
+            return resultado;
+        }
+        catch (Error) {
+            var resultado = new Simbolo_1.default();
+            resultado.classRol = 10 /* error */;
+            resultado.classTipo = 6 /* error */;
+            resultado.classIdentificador = this.fila + "-" + this.columna;
+            resultado.classValor = "Error: " + Error.message;
+            return resultado;
+        }
+    };
+    Expresion.prototype.evaluar = function (entorno_padre, ptr_entorno) {
         try {
             var resultado = new Simbolo_1.default();
             resultado.classAcceso = 0 /* publico */;

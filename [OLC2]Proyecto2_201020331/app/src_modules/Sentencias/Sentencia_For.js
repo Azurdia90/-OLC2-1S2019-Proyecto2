@@ -24,7 +24,6 @@ var Sentencia_Break_1 = __importDefault(require("./Sentencia_Break"));
 var Sentencia_Continue_1 = __importDefault(require("./Sentencia_Continue"));
 var Sentencia_Return_1 = __importDefault(require("./Sentencia_Return"));
 var Sentencia_If_1 = __importDefault(require("./Sentencia_If"));
-var Sentencia_Switch_1 = __importDefault(require("./Sentencia_Switch"));
 var Sentencia_For = /** @class */ (function (_super) {
     __extends(Sentencia_For, _super);
     function Sentencia_For(p_sentencia_inicio, p_sentencia_comparacion, p_sentencia_final, p_lista_instrucciones) {
@@ -99,9 +98,6 @@ var Sentencia_For = /** @class */ (function (_super) {
                 }
                 else if (sentencia instanceof Sentencia_If_1.default) {
                     resultado_sentencia = sentencia.ejecutar(this.entorno_local, ptr_entorno, etiqueta_retorno, etiqueta_fin, etiqueta_continue);
-                }
-                else if (sentencia instanceof Sentencia_Switch_1.default) {
-                    resultado_sentencia = sentencia.ejecutar(this.entorno_local, ptr_entorno, etiqueta_retorno);
                 }
                 else {
                     resultado_sentencia = sentencia.ejecutar(this.entorno_local, ptr_entorno, etiqueta_retorno);

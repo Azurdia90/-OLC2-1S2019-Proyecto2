@@ -37,7 +37,7 @@ var Sentencia_Declaracion_Instancia = /** @class */ (function (_super) {
             if (this.tipo == 0) {
                 var expresion_r;
                 if (this.valor instanceof Expresion_1.default) {
-                    expresion_r = this.valor.ejecutar();
+                    expresion_r = this.valor.ejecutar(entorno_local, ptr_entorno);
                     if (expresion_r.classRol == 10 /* error */) {
                         Tabla_Simbolos_1.default.limpiar_3d();
                         return expresion_r;
@@ -192,7 +192,7 @@ var Sentencia_Declaracion_Instancia = /** @class */ (function (_super) {
                         for (var i = 0; i < this.lista_tam_dim.length; i++) {
                             var tam_dim;
                             if (this.lista_tam_dim[i] instanceof Expresion_1.default) {
-                                tam_dim = this.lista_tam_dim[i].ejecutar();
+                                tam_dim = this.lista_tam_dim[i].ejecutar(entorno_local, ptr_entorno);
                             }
                             else if (this.lista_tam_dim[i] instanceof Simbolo_1.default) {
                                 tam_dim = this.lista_tam_dim[i];
@@ -324,7 +324,7 @@ var Sentencia_Declaracion_Instancia = /** @class */ (function (_super) {
                                 resultado_d = lista_valores[y];
                             }
                             else if (lista_valores[y] instanceof Expresion_1.default) {
-                                resultado_d = lista_valores[y].ejecutar();
+                                resultado_d = lista_valores[y].ejecutar(entorno_local, ptr_entorno);
                             }
                             else {
                                 Tabla_Simbolos_1.default.limpiar_3d();

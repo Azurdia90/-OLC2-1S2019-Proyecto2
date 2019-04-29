@@ -13,7 +13,7 @@ class Sentencia_Imprimir extends Instruccion
         this.expresion = p_expresion;        
     }
 
-    ejecutar(entorno_local: Map<String,Simbolo>, ptr_entorno?: Array<number>)
+    ejecutar(entorno_local: Map<String,Simbolo>, ptr_entorno: Array<number>)
     {
         try
         {
@@ -23,7 +23,7 @@ class Sentencia_Imprimir extends Instruccion
             
             if(this.expresion instanceof Expresion)
             {
-                simbolo_exp = this.expresion.ejecutar();
+                simbolo_exp = this.expresion.ejecutar(entorno_local, ptr_entorno);
                 
                 if(simbolo_exp.classRol == tipo_rol.error)
                 {
@@ -54,26 +54,55 @@ class Sentencia_Imprimir extends Instruccion
                 return resultado;
             }
 
-            
+            var tam_metodo = ptr_entorno[0];
+            var temporal_simulado = "t" + tabla_simbolos.classTemporal;
+            var temporal_contador = "t" + tabla_simbolos.classTemporal;
+                        
+            tabla_simbolos.classCodigo_3D = "\n";
             if(simbolo_exp.classTipo == tipo_dato_primitivo.booleano)
             {
-                tabla_simbolos.classCodigo_3D = "t0 = " + simbolo_exp.classValor + ";\ncall imprimir_booleano;\n";
+                tabla_simbolos.classCodigo_3D = temporal_simulado + " = P + " +  tam_metodo + ";\n";
+                tabla_simbolos.classCodigo_3D = temporal_contador + " = " + temporal_simulado + " +  2;\n";
+                tabla_simbolos.classCodigo_3D = "Stack[" + temporal_contador + "] = " + simbolo_exp.classValor + ";\n";
+                tabla_simbolos.classCodigo_3D = "P = P + " + tam_metodo + ";\n";
+                tabla_simbolos.classCodigo_3D = "call imprimir_booleano;\n";
+                tabla_simbolos.classCodigo_3D = "P = P - " + tam_metodo + ";\n"; 
             }
             else if(simbolo_exp.classTipo == tipo_dato_primitivo.entero)
             {
-                tabla_simbolos.classCodigo_3D = "t1 = " + simbolo_exp.classValor + ";\ncall imprimir_entero;\n";
+                tabla_simbolos.classCodigo_3D = temporal_simulado + " = P + " +  tam_metodo + ";\n";
+                tabla_simbolos.classCodigo_3D = temporal_contador + " = " + temporal_simulado + " +  2;\n";
+                tabla_simbolos.classCodigo_3D = "Stack[" + temporal_contador + "] = " + simbolo_exp.classValor + ";\n";
+                tabla_simbolos.classCodigo_3D = "P = P + " + tam_metodo + ";\n";
+                tabla_simbolos.classCodigo_3D = "call imprimir_entero;\n";
+                tabla_simbolos.classCodigo_3D = "P = P - " + tam_metodo + ";\n"; 
             }
             else if(simbolo_exp.classTipo == tipo_dato_primitivo.decimal)
             {
-                tabla_simbolos.classCodigo_3D = "t2 =" + simbolo_exp.classValor + ";\ncall imprimir_decimal;\n";
+                tabla_simbolos.classCodigo_3D = temporal_simulado + " = P + " +  tam_metodo + ";\n";
+                tabla_simbolos.classCodigo_3D = temporal_contador + " = " + temporal_simulado + " +  2;\n";
+                tabla_simbolos.classCodigo_3D = "Stack[" + temporal_contador + "] = " + simbolo_exp.classValor + ";\n";
+                tabla_simbolos.classCodigo_3D = "P = P + " + tam_metodo + ";\n";
+                tabla_simbolos.classCodigo_3D = "call imprimir_decimal;\n";
+                tabla_simbolos.classCodigo_3D = "P = P - " + tam_metodo + ";\n";
             }
             else if(simbolo_exp.classTipo == tipo_dato_primitivo.caracter)
             {
-                tabla_simbolos.classCodigo_3D = "t3 = " + simbolo_exp.classValor + ";\ncall imprimir_caracter;\n";
+                tabla_simbolos.classCodigo_3D = temporal_simulado + " = P + " +  tam_metodo + ";\n";
+                tabla_simbolos.classCodigo_3D = temporal_contador + " = " + temporal_simulado + " +  2;\n";
+                tabla_simbolos.classCodigo_3D = "Stack[" + temporal_contador + "] = " + simbolo_exp.classValor + ";\n";
+                tabla_simbolos.classCodigo_3D = "P = P + " + tam_metodo + ";\n";
+                tabla_simbolos.classCodigo_3D = "call imprimir_caracter;\n";
+                tabla_simbolos.classCodigo_3D = "P = P - " + tam_metodo + ";\n";
             }
             else if(simbolo_exp.classTipo == tipo_dato_primitivo.cadena)
             {
-                tabla_simbolos.classCodigo_3D = "t4 = " + simbolo_exp.classValor + ";\ncall imprimir_cadena;\n";
+                tabla_simbolos.classCodigo_3D = temporal_simulado + " = P + " +  tam_metodo + ";\n";
+                tabla_simbolos.classCodigo_3D = temporal_contador + " = " + temporal_simulado + " +  2;\n";
+                tabla_simbolos.classCodigo_3D = "Stack[" + temporal_contador + "] = " + simbolo_exp.classValor + ";\n";
+                tabla_simbolos.classCodigo_3D = "P = P + " + tam_metodo + ";\n";                
+                tabla_simbolos.classCodigo_3D = "call imprimir_cadena;\n";
+                tabla_simbolos.classCodigo_3D = "P = P - " + tam_metodo + ";\n";
             }
             else
             {

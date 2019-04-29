@@ -1,33 +1,38 @@
 import Pila_Entornos from "./Pila_Entornos";
 import Simbolo from "./Simbolo";
+import Metodo from "./Metodo";
+import Instruccion from "../Instruccion";
 
 class Tabla_Simbolos
 {
     private _codigo_3D : string;
     private _temporal : number;
+    private _temporal_global : number;
     private _etiqueta : number;
-    private _heap : number;
     
     private _entorno : Pila_Entornos;
+    private _lista_metodos : Array<Metodo>;
 
     constructor()
     {
         this._entorno = new Pila_Entornos();
+        this._lista_metodos = new Array<Metodo>();
 
         this._codigo_3D = "";
-        this._temporal = 100;
-        this._etiqueta = 100;
-        this._heap = 0;
+        this._temporal_global = 1;
+        this._temporal = 1;
+        this._etiqueta = 1;
     }
 
     limpiar()
     {
         this._entorno = new Pila_Entornos();
+        this._lista_metodos = new Array<Metodo>();
 
         this._codigo_3D = "";
-        this._temporal = 100;
-        this._etiqueta = 100; 
-        this._heap = 0;
+        this._temporal_global = 1;
+        this._temporal = 1;
+        this._etiqueta = 1; 
     }
 
     get classEntornos()
@@ -48,6 +53,18 @@ class Tabla_Simbolos
     set classCodigo_3D(p_codigo : string)
     {
         this._codigo_3D = this._codigo_3D + p_codigo;
+    }
+
+    get classTemporal_global()
+    {
+        var t = this._temporal_global;
+        this._temporal_global++;
+        return t;
+    }
+
+    set classTemporal_global(p_temporal_global : number)
+    {
+        this._temporal_global = p_temporal_global;
     }
 
     get classTemporal()
@@ -74,18 +91,19 @@ class Tabla_Simbolos
         this._etiqueta = p_etiqueta;
     }
 
-    get classHeap()
+    /******* AREA TEMPORAL BORRAR DESPUES *******/
+
+    get classLista_parametros()
     {
-        var t = this._heap;
-        this._heap++;
-        return t;
+        return this._lista_metodos;
     }
 
-    set classHeap(p_heap : number)
+    set classLista_parametros(p_lista_parametros : Array<Metodo>)
     {
-        this._heap = p_heap;
+        this._lista_metodos = p_lista_parametros
     }
 
+    /******* FIN AREA TEMPORAL BORRAR DESPUES *******/
 
     obtener_simbolo(p_id : String)
     {
@@ -142,6 +160,16 @@ class Tabla_Simbolos
             }
         }
         return false
+    }
+
+    limpiar_temporal()
+    {
+        this._temporal = 100;
+    }
+
+    limpiar_etiqueta()
+    {
+        this._etiqueta = 100;
     }
 
     limpiar_3d()

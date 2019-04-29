@@ -67,7 +67,7 @@ class AST_3D
         {
             var expresion = this.fabrica_expresiones(subsuperjason['valor']);
             if(subsuperjason['tipo'] == 0 || subsuperjason['tipo'] == 1)
-            {
+            {                
                 return new Sentencia_Asignacion(subsuperjason['id'],subsuperjason['tipo'],expresion);
             }
             else
@@ -127,7 +127,7 @@ class AST_3D
             {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
                 var operador2 = this.fabrica_expresiones(subsubsuperjason['operador2']);
-                return new Resta(operador1,operador2);
+                return new Resta(operador1,operador2);           
             }
             else if(subsubsuperjason['simbolo'] == '*')
             {
@@ -170,13 +170,13 @@ class AST_3D
             {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
                 var operador2 = this.fabrica_expresiones(subsubsuperjason['operador2']);
-                return new Mayor_Igual_Que(operador1,operador2);
+                return new Menor_Igual_Que(operador1,operador2);
             }
             else if(subsubsuperjason['simbolo'] == '>=')
             {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
                 var operador2 = this.fabrica_expresiones(subsubsuperjason['operador2']);
-                return new Menor_Igual_Que(operador1,operador2);
+                return new Mayor_Igual_Que(operador1,operador2);
             }
             else if(subsubsuperjason['simbolo'] == '==')
             {
@@ -196,9 +196,8 @@ class AST_3D
             }
         } 
         else if(subsubsuperjason['etiqueta'] == "valor_primitivo")
-        {
-            
-            if(subsubsuperjason['tipo']  == 0 || subsubsuperjason['tipo']  == 1  || subsubsuperjason['tipo']  == 2 )
+        {            
+            if(subsubsuperjason['tipo']  == 0 || subsubsuperjason['tipo']  == 1  || subsubsuperjason['tipo']  == 2 || subsubsuperjason['tipo']  == 5 )
             {
                 return new Valor(subsubsuperjason['valor'], subsubsuperjason['tipo']);
             }

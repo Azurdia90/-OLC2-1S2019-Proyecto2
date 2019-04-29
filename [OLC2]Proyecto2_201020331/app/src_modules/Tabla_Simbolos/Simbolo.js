@@ -9,6 +9,7 @@ var Simbolo = /** @class */ (function () {
         this._identificador = "";
         this._pos = 0;
         this._tam = 0;
+        this._parametros = "";
     }
     Object.defineProperty(Simbolo.prototype, "classClase", {
         //get y set

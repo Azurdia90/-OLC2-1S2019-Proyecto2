@@ -36,7 +36,7 @@ class Sentencia_Declaracion_Instancia extends Instruccion
                 var expresion_r : Simbolo;    
                 if(this.valor instanceof Expresion)
                 {
-                    expresion_r  = this.valor.ejecutar();
+                    expresion_r  = this.valor.ejecutar(entorno_local,ptr_entorno);
     
                     if(expresion_r.classRol == tipo_rol.error)
                     {
@@ -231,7 +231,7 @@ class Sentencia_Declaracion_Instancia extends Instruccion
                             var tam_dim :Simbolo;
                             if(this.lista_tam_dim[i] instanceof Expresion)
                             {
-                                tam_dim = this.lista_tam_dim[i].ejecutar();
+                                tam_dim = this.lista_tam_dim[i].ejecutar(entorno_local,ptr_entorno);
                             }
                             else if(this.lista_tam_dim[i] instanceof Simbolo)
                             {
@@ -396,7 +396,7 @@ class Sentencia_Declaracion_Instancia extends Instruccion
                             } 
                             else if(lista_valores[y] instanceof Expresion)
                             {
-                                resultado_d = lista_valores[y].ejecutar();
+                                resultado_d = lista_valores[y].ejecutar(entorno_local,ptr_entorno);
                             }
                             else
                             {

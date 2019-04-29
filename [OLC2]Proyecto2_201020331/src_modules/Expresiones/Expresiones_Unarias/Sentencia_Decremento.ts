@@ -14,7 +14,7 @@ class Sentencia_Decremento extends Expresion
         this.tipo = p_tipo;
     }
 
-    ejecutar()
+    ejecutar(entorno_padre: Map<String,Simbolo>, ptr_entorno: Array<number>)
     {
         try
         {
@@ -89,6 +89,86 @@ class Sentencia_Decremento extends Expresion
         {
             tabla_simbolos.limpiar_3d();
 
+            var resultado  = new Simbolo();
+            resultado.classAcceso = tipo_acceso.publico;
+            resultado.classRol = tipo_rol.error;
+            resultado.classTipo = tipo_dato_primitivo.cadena;
+            resultado.classIdentificador = "33-12";
+            resultado.classValor = "Decremento No realizado correctamente: " + Error.Message;
+            return resultado;
+        }
+    }
+
+    evaluar(entorno_padre: Map<String,Simbolo>, ptr_entorno: Array<number>)
+    {
+        try
+        {
+            if(this.tipo == 0)
+            {
+                if(tabla_simbolos.existe_simbolo(this.identificador))
+                {
+                    var retorno = tabla_simbolos.obtener_simbolo(this.identificador);
+                    if(retorno != undefined)
+                    {
+                        if( (retorno.classTipo == tipo_dato_primitivo.entero) || (retorno.classTipo == tipo_dato_primitivo.decimal))
+                        {
+
+                            var resultado = new Simbolo();
+                            resultado.classAcceso = tipo_acceso.publico;
+                            resultado.classRol = tipo_rol.aceptado ;
+                            resultado.classTipo = retorno.classTipo;                    
+                            resultado.classIdentificador = "10-4";                    
+                            resultado.classValor = "10-4";
+                    
+                            return resultado;
+                        }
+                        else
+                        {
+                            var resultado  = new Simbolo();
+                            resultado.classAcceso = tipo_acceso.publico;
+                            resultado.classRol = tipo_rol.error;
+                            resultado.classTipo = tipo_dato_primitivo.cadena;
+                            resultado.classIdentificador = "33-12";
+                            resultado.classValor = "Decremento NO realizado correctamente: La variable \"" + this.identificador + "\" no es de tipo numerico.";
+                            return resultado;    
+                        }
+                    }
+                    else
+                    {
+                        var resultado  = new Simbolo();
+                        resultado.classAcceso = tipo_acceso.publico;
+                        resultado.classRol = tipo_rol.error;
+                        resultado.classTipo = tipo_dato_primitivo.cadena;
+                        resultado.classIdentificador = "33-12";
+                        resultado.classValor = "Decremento NO realizado correctamente: La variable \"" + this.identificador + "\" no existe.";
+                        return resultado;
+                    }                    
+                }
+                else
+                {
+                    var resultado  = new Simbolo();
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.error;
+                    resultado.classTipo = tipo_dato_primitivo.cadena;
+                    resultado.classIdentificador = "33-12";
+                    resultado.classValor = "Decremento NO realizado correctamente: La variable \"" + this.identificador + "\" no existe.";
+                    return resultado;
+                }  
+            }
+            else
+            {
+                var resultado  = new Simbolo();
+                resultado.classAcceso = tipo_acceso.publico;
+                resultado.classRol = tipo_rol.error;
+                resultado.classTipo = tipo_dato_primitivo.cadena;
+                resultado.classIdentificador = "33-12";
+                resultado.classValor = "Decremento No realizado correctamente: Funcionalidad No implementada Aun.";
+                return resultado;
+            }
+
+        }
+        catch(Error)
+        {
             var resultado  = new Simbolo();
             resultado.classAcceso = tipo_acceso.publico;
             resultado.classRol = tipo_rol.error;

@@ -1,5 +1,6 @@
 import Expresion from "../Expresion";
 import Simbolo from "../../Tabla_Simbolos/Simbolo";
+import tabla_simbolos from "../../Tabla_Simbolos/Tabla_Simbolos";
 
 class And extends Expresion
 {
@@ -8,7 +9,7 @@ class And extends Expresion
         super(p_operador1,"&&", p_operador2);
     }
 
-    ejecutar()
+    ejecutar(entorno_padre: Map<String,Simbolo>, ptr_entorno: Array<number>)
     {
         var valor1 : Simbolo;
         var valor2 : Simbolo;        
@@ -18,7 +19,7 @@ class And extends Expresion
         {
             if(this.operador1 instanceof Expresion)
             {
-                valor1 = this.operador1.ejecutar();
+                valor1 = this.operador1.evaluar(entorno_padre, ptr_entorno);
             }
             else 
             {
@@ -27,7 +28,7 @@ class And extends Expresion
     
             if(this.operador2 instanceof Expresion)
             {
-                valor2 = this.operador2.ejecutar();
+                valor2 = this.operador2.evaluar(entorno_padre, ptr_entorno);
             }
             else 
             {
@@ -48,9 +49,89 @@ class And extends Expresion
 
             if(valor1.classTipo == tipo_dato_primitivo.booleano && valor2.classTipo == tipo_dato_primitivo.booleano)
             {
-                //boolean val1_boolean = valor1.getValor().toString().equals("verdadero") ? true : false;
-                //boolean val2_boolean = valor2.getValor().toString().equals("verdadero") ? true : false;
-                //boolean resultado = val1_boolean && val2_boolean;
+                var etiqueta_positiva1 = "L" + tabla_simbolos.classEtiqueta;
+                var etiqueta_negativa1 = "L" + tabla_simbolos.classEtiqueta;
+                var etiqueta_positiva2 = "L" + tabla_simbolos.classEtiqueta;
+                var etiqueta_negativa2 = "L" + tabla_simbolos.classEtiqueta;
+                
+                valor1 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
+                valor2 = this.operador2.ejecutar(entorno_padre, ptr_entorno);
+
+                tabla_simbolos.classCodigo_3D = "if(" + valor1.classValor + ") goto " + etiqueta_positiva1 + ";\n";
+                tabla_simbolos.classCodigo_3D = "goto " + etiqueta_negativa1 + ";\n";
+                tabla_simbolos.classCodigo_3D = etiqueta_positiva1 + ":\n"
+                tabla_simbolos.classCodigo_3D = "if(" + valor2.classValor + ") goto " + etiqueta_positiva2 + ";\n";
+                tabla_simbolos.classCodigo_3D = "goto " + etiqueta_negativa2 + ";\n";
+                tabla_simbolos.classCodigo_3D = etiqueta_positiva2 + ":\n"
+
+                resultado.classAcceso = tipo_acceso.publico;
+                resultado.classRol = tipo_rol.aceptado;
+                resultado.classTipo = tipo_dato_primitivo.cadena;
+                resultado.classIdentificador = "10-4";                
+                resultado.classValor = etiqueta_negativa1 + ": " + etiqueta_negativa2 + " :\n"; 
+                return resultado;                               
+            } 
+            else
+            {
+                resultado.classAcceso = tipo_acceso.publico;
+                resultado.classRol = tipo_rol.error;
+                resultado.classTipo = tipo_dato_primitivo.error;
+                resultado.classIdentificador = this.fila + "-" + this.columna;                
+                resultado.classValor = "No es posible realizar And con valores no booleanos.";    
+                return resultado;
+            }                        
+        }
+        catch(Error)
+        {
+            resultado = new Simbolo();
+            resultado.classRol = tipo_rol.error;
+            resultado.classTipo = tipo_dato_primitivo.error;
+            resultado.classIdentificador = this.fila + "-" + this.columna;
+            resultado.classValor =  "Error: " + Error.message;        
+            return resultado;
+        }
+    }
+
+    evaluar(entorno_padre: Map<String,Simbolo>, ptr_entorno: Array<number>)
+    {
+        var valor1 : Simbolo;
+        var valor2 : Simbolo;        
+        var resultado : Simbolo;
+        
+        try
+        {
+            if(this.operador1 instanceof Expresion)
+            {
+                valor1 = this.operador1.evaluar(entorno_padre, ptr_entorno);
+            }
+            else 
+            {
+                valor1 = <Simbolo> this.operador1;
+            }
+    
+            if(this.operador2 instanceof Expresion)
+            {
+                valor2 = this.operador2.evaluar(entorno_padre, ptr_entorno);
+            }
+            else 
+            {
+                valor2 = <Simbolo> this.operador2;
+            }
+
+            if(valor1.classRol == tipo_rol.error )
+            {
+                return valor1;
+            }
+            
+            if(valor2.classRol == tipo_rol.error)
+            {
+                return valor2;
+            }
+
+            resultado = new Simbolo();
+
+            if(valor1.classTipo == tipo_dato_primitivo.booleano && valor2.classTipo == tipo_dato_primitivo.booleano)
+            {
                 
                 resultado.classAcceso = tipo_acceso.publico;
                 resultado.classRol = tipo_rol.aceptado;
@@ -78,6 +159,6 @@ class And extends Expresion
             resultado.classValor =  "Error: " + Error.message;        
             return resultado;
         }
-    }
+    }    
 }
 export default And;

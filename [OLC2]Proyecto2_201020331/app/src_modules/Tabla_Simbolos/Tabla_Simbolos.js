@@ -8,17 +8,19 @@ var Simbolo_1 = __importDefault(require("./Simbolo"));
 var Tabla_Simbolos = /** @class */ (function () {
     function Tabla_Simbolos() {
         this._entorno = new Pila_Entornos_1.default();
+        this._lista_metodos = new Array();
         this._codigo_3D = "";
-        this._temporal = 100;
-        this._etiqueta = 100;
-        this._heap = 0;
+        this._temporal_global = 1;
+        this._temporal = 1;
+        this._etiqueta = 1;
     }
     Tabla_Simbolos.prototype.limpiar = function () {
         this._entorno = new Pila_Entornos_1.default();
+        this._lista_metodos = new Array();
         this._codigo_3D = "";
-        this._temporal = 100;
-        this._etiqueta = 100;
-        this._heap = 0;
+        this._temporal_global = 1;
+        this._temporal = 1;
+        this._etiqueta = 1;
     };
     Object.defineProperty(Tabla_Simbolos.prototype, "classEntornos", {
         get: function () {
@@ -36,6 +38,18 @@ var Tabla_Simbolos = /** @class */ (function () {
         },
         set: function (p_codigo) {
             this._codigo_3D = this._codigo_3D + p_codigo;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Tabla_Simbolos.prototype, "classTemporal_global", {
+        get: function () {
+            var t = this._temporal_global;
+            this._temporal_global++;
+            return t;
+        },
+        set: function (p_temporal_global) {
+            this._temporal_global = p_temporal_global;
         },
         enumerable: true,
         configurable: true
@@ -64,18 +78,18 @@ var Tabla_Simbolos = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Tabla_Simbolos.prototype, "classHeap", {
+    Object.defineProperty(Tabla_Simbolos.prototype, "classLista_parametros", {
+        /******* AREA TEMPORAL BORRAR DESPUES *******/
         get: function () {
-            var t = this._heap;
-            this._heap++;
-            return t;
+            return this._lista_metodos;
         },
-        set: function (p_heap) {
-            this._heap = p_heap;
+        set: function (p_lista_parametros) {
+            this._lista_metodos = p_lista_parametros;
         },
         enumerable: true,
         configurable: true
     });
+    /******* FIN AREA TEMPORAL BORRAR DESPUES *******/
     Tabla_Simbolos.prototype.obtener_simbolo = function (p_id) {
         for (var i = (this._entorno.classTamaño - 1); i > -1; i--) {
             var entorno_aux = this._entorno.obtener(i);
@@ -117,6 +131,12 @@ var Tabla_Simbolos = /** @class */ (function () {
             }
         }
         return false;
+    };
+    Tabla_Simbolos.prototype.limpiar_temporal = function () {
+        this._temporal = 100;
+    };
+    Tabla_Simbolos.prototype.limpiar_etiqueta = function () {
+        this._etiqueta = 100;
     };
     Tabla_Simbolos.prototype.limpiar_3d = function () {
         this._codigo_3D = "";

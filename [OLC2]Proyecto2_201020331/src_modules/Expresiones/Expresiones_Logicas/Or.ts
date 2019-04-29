@@ -1,5 +1,6 @@
 import Expresion from "../Expresion";
 import Simbolo from "../../Tabla_Simbolos/Simbolo";
+import tabla_simbolos from "../../Tabla_Simbolos/Tabla_Simbolos";
 
 class Or extends Expresion
 {
@@ -8,7 +9,7 @@ class Or extends Expresion
         super(p_operador1,"||", p_operador2);
     }
 
-    ejecutar()
+    ejecutar(entorno_padre: Map<String,Simbolo>, ptr_entorno: Array<number>)
     {
         var valor1 : Simbolo;
         var valor2 : Simbolo;        
@@ -18,7 +19,7 @@ class Or extends Expresion
         {
             if(this.operador1 instanceof Expresion)
             {
-                valor1 = this.operador1.ejecutar();
+                valor1 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
             }
             else 
             {
@@ -27,7 +28,7 @@ class Or extends Expresion
     
             if(this.operador2 instanceof Expresion)
             {
-                valor2 = this.operador2.ejecutar();
+                valor2 = this.operador2.ejecutar(entorno_padre, ptr_entorno);
             }
             else 
             {
@@ -48,9 +49,19 @@ class Or extends Expresion
 
             if(valor1.classTipo == tipo_dato_primitivo.booleano && valor2.classTipo == tipo_dato_primitivo.booleano)
             {
-                //boolean val1_boolean = valor1.getValor().toString().equals("verdadero") ? true : false;
-                //boolean val2_boolean = valor2.getValor().toString().equals("verdadero") ? true : false;
-                //boolean resultado = val1_boolean && val2_boolean;
+                var etiqueta_positiva1 = "L" + tabla_simbolos.classEtiqueta;
+                var etiqueta_negativa1 = "L" + tabla_simbolos.classEtiqueta;
+                var etiqueta_positiva2 = "L" + tabla_simbolos.classEtiqueta;
+                var etiqueta_negativa2 = "L" + tabla_simbolos.classEtiqueta;
+                
+                valor1 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
+                valor2 = this.operador2.ejecutar(entorno_padre, ptr_entorno);
+
+                tabla_simbolos.classCodigo_3D = "if(" + valor1.classValor + ") goto " + etiqueta_positiva1 + ";\n";
+                tabla_simbolos.classCodigo_3D = "goto " + etiqueta_negativa1 + ";\n";
+                tabla_simbolos.classCodigo_3D =  etiqueta_negativa1 + ":\n";
+                tabla_simbolos.classCodigo_3D = "if(" + valor2.classValor + ") goto " + etiqueta_positiva2 + ";\n";
+                tabla_simbolos.classCodigo_3D = "goto " + etiqueta_negativa2 + ";\n";
                 
                 resultado.classAcceso = tipo_acceso.publico;
                 resultado.classRol = tipo_rol.aceptado;

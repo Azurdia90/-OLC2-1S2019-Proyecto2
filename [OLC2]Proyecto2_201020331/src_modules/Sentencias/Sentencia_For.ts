@@ -113,10 +113,6 @@ class Sentencia_For extends Instruccion
                 {
                     resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno,etiqueta_fin,etiqueta_continue);
                 }
-                else if(sentencia instanceof Sentencia_Switch)
-                {
-                    resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno);
-                }
                 else
                 {
                     resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno);

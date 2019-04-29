@@ -8,7 +8,8 @@ class Simbolo
     private _valor : any;
     private _pos: number;
     private _tam: number;
-
+    private _parametros: String;
+    
     constructor()
     {
         this._clase = "";
@@ -18,6 +19,7 @@ class Simbolo
         this._identificador = "";        
         this._pos = 0;
         this._tam = 0;
+        this._parametros = "";
     }
     
     //get y set

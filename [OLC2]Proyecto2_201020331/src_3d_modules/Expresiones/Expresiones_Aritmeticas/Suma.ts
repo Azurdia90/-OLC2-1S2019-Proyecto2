@@ -31,7 +31,6 @@ class Suma extends Expresion
             var new_tam   : number;
             
             res_suma =  (<number> valor1.classValor) + (<number> valor2.classValor);
-            console.log("resultado de la suma: " + res_suma)
             new_tam  =  valor1.classTam + valor2.classTam;
 
             resultado = new Simbolo(res_suma, new_tam);

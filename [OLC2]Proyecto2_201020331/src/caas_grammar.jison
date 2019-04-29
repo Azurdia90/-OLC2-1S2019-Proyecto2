@@ -14,6 +14,14 @@
 "boolean"             return 'r_booleano'
 "String"              return 'r_cadena'
 
+"public"              return 'r_public'
+"protected"           return 'r_protected'
+"private"             return 'r_private'
+"abstract"            return 'r_abstract'
+"static"              return 'r_static'
+"final"               return 'r_final'
+
+"void"                return 'r_void'
 "new"                 return 'r_new'
 
 "if"                  return 'r_if'
@@ -27,6 +35,7 @@
 "continue"            return 'r_continue'
 "break"               return 'r_break'
 "return"              return 'r_return'
+"pow"                 return 'r_pow'
 "print"               return 'r_imprimir'    
 "read_file"           return 'read_file'
 "write_file"          return 'write_file'
@@ -101,35 +110,67 @@
 %% /* language grammar */
 
 BODY_CAAS
-    : LISTA_SENTENCIAS EOF
+    : LISTA_METODOS EOF
       {return $1;}
     ;
 
+LISTA_MODIFICADORES
+    : LISTA_MODIFICADORES MODIFICADOR
+    {
+      $1.lista_modificadores.push($2);
+      $$ = $1;
+    }      
+    | MODIFICADOR
+    {
+      $$ = {lista_modificadores: [$1]};
+    }
+    ;
+
+MODIFICADOR
+    : r_public
+      {return $1;}
+    | r_protected
+      {return $1;}
+    | r_private
+      {return $1;}
+    | r_abstract
+      {return $1;}
+    | r_static
+      {return $1;}
+    | r_final
+      {return $1;}
+    ;
+
+TIPO_METODO 
+    : r_void
+      {$$ = $1;}
+    | r_booleano
+      {$$ = $1;}
+    | r_entero
+      {$$ = $1;}
+    | r_doble
+      {$$ = $1;}  
+    | r_caracter
+      {$$ = $1;}
+    | r_cadena
+      { $$ = $1}
+    | identificador
+      {$$ = $1;}  
+    ;    
+
 TIPO_VARIABLE 
     : r_booleano
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | r_entero
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | r_doble
-      {
-        $$ = $1;
-      }  
+      {$$ = $1;}  
     | r_caracter
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | r_cadena
-      {
-        $$ = $1;
-      }
+      { $$ = $1}
     | identificador
-      {
-        $$ = $1;
-      }  
+      {$$ = $1;}  
     ;
 
 LISTA_IDENTIFICADORES
@@ -142,75 +183,116 @@ LISTA_IDENTIFICADORES
       { $$ = [$1];}
     ;   
 
-LISTA_SENTENCIAS 
-    : LISTA_SENTENCIAS SENTENCIAS 
+/**********************************************METODOS***********************************************************************************************************/
+
+LISTA_METODOS
+    : LISTA_METODOS METODO
+      {
+        $1.lista_metodos.push($2);
+        $$ = $1;
+      }
+    | METODO
+      {
+        $$ = {lista_metodos: [$1]};
+      }
+    ;
+
+METODO 
+    : LISTA_MODIFICADORES TIPO_METODO identificador s_par_open LISTA_PARAMETROS s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close
+      {
+        $$ = {etiqueta: "metodo", modificadores: $1, tipo: $2, identificador: $3, parametros: $5, sentencias: $8};
+      }
+    | LISTA_MODIFICADORES TIPO_METODO identificador s_par_open s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close
+      {
+        $$ = {etiqueta: "metodo", modificadores: $1, tipo: $2, identificador: $3, sentencias: $7};
+      }
+    | TIPO_METODO identificador s_par_open LISTA_PARAMETROS s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close
+      {
+        $$ = {etiqueta: "metodo", tipo: $1, identificador: $2, parametros: $4, sentencias: $7};
+      }
+    | TIPO_METODO identificador s_par_open s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close
+      {
+        $$ = {etiqueta: "metodo", tipo: $1, identificador: $2, sentencias: $6};
+      }      
+    ;
+
+LISTA_PARAMETROS
+    : LISTA_PARAMETROS s_coma DECLARACION_PARAMETRO
+      {
+        $1.lista_parametros.push($3);
+        $$ = $1;
+      }
+    | DECLARACION_PARAMETRO
+      {
+        $$ = {lista_parametros: [$1]};
+      }
+    ;
+
+DECLARACION_PARAMETRO
+    : r_final TIPO_VARIABLE PARAMETRO
+      {
+        $$ = {etiqueta: "parametro", estado: 0, tipo: $1, identificador: $2};
+      }
+    | TIPO_VARIABLE PARAMETRO
+      {
+        $$ = {etiqueta: "parametro", estado: 1 , tipo: $1, identificador: $2};
+      }
+    ;
+
+PARAMETRO 
+    : identificador s_cor_open s_cor_close
+      {
+        $$ = { etiqueta : "identificador", valor: $1};
+      }
+    | identificador
+      {
+        $$ = { etiqueta : "identificador", valor: $1};
+      }
+    ;
+
+LISTA_SENTENCIAS_METODOS
+    : LISTA_SENTENCIAS_METODOS SENTENCIAS_METODOS
       {
         $1.sentencias.push($2);
         $$ = $1; 
       }
-    | SENTENCIAS
+    | SENTENCIAS_METODOS
       {
         $$ = {sentencias : [$1]};
       }
     ;
     
-SENTENCIAS
+SENTENCIAS_METODOS
     : SENTENCIA_DECLARACION_INSTANCIA s_dot_coma
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | SENTENCIA_ASIGNACION s_dot_coma
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | SENTENCIA_IF
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | SENTENCIA_SWITCH
-      {
-        $$ = $1;
-      }  
+      {$$ = $1;}  
     | SENTENCIA_DO_WHILE s_dot_coma
-      {
-        $$ = $1;
-      }      
+      {$$ = $1;}      
     | SENTENCIA_WHILE
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | SENTENCIA_FOR 
-      {
-        $$ = $1;
-      }  
+      {$$ = $1;}  
     | SENTENCIA_FOR_EACH
-      {
-        $$ = $1;
-      }  
+      {$$ = $1;}  
     | SENTENCIA_BREAK s_dot_coma
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | SENTENCIA_CONTINUE s_dot_coma
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | SENTENCIA_RETURN s_dot_coma
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | SENTENCIA_INCREMENTO s_dot_coma
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     | SENTENCIA_DECREMENTO s_dot_coma
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
+    | SENTENCIA_LLAMADA s_dot_coma
+      {$$ = $1;}
     | SENTENCIA_IMPRIMIR s_dot_coma
-      {
-        $$ = $1;
-      }
+      {$$ = $1;}
     ;    
 
 SENTENCIA_DECLARACION_INSTANCIA
@@ -298,19 +380,19 @@ SENTENCIA_ASIGNACION
     ;   
 
 SENTENCIA_IF
-    : r_if s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS s_key_close LISTA_ELSE_IF r_else s_key_open LISTA_SENTENCIAS s_key_close
+    : r_if s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close LISTA_ELSE_IF r_else s_key_open LISTA_SENTENCIAS_METODOS s_key_close
       {
         $$ = {etiqueta : "sentencia_if", tipo : 0, condicion : $3, sentencias: $6, lista_else_if : $8, sentencias_else: $11 };
       }
-    | r_if s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS s_key_close r_else s_key_open LISTA_SENTENCIAS s_key_close
+    | r_if s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close r_else s_key_open LISTA_SENTENCIAS_METODOS s_key_close
       {
         $$ = {etiqueta : "sentencia_if", tipo : 0, condicion : $3, sentencias: $6, sentencias_else : $10 };
       }
-    | r_if s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS s_key_close LISTA_ELSE_IF
+    | r_if s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close LISTA_ELSE_IF
       {
         $$ = {etiqueta : "sentencia_if", tipo : 0, condicion : $3, sentencias: $6, lista_else_if : $8 };
       }
-    | r_if s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS s_key_close
+    | r_if s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close
       {
         $$ = {etiqueta : "sentencia_if", tipo : 0, condicion : $3, sentencias: $6 };
       }
@@ -329,7 +411,7 @@ LISTA_ELSE_IF
     ;
 
 SENTENCIA_ELSE_IF
-    : r_else r_if s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS s_key_close
+    : r_else r_if s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close
       {
         $$ = {etiqueta : "sentencia_if", tipo : 1, condicion : $4, sentencias: $7 };
       }
@@ -355,46 +437,46 @@ LISTA_CASOS
     ;
 
 CASO
-    : r_case EXPRESION s_doble_dot LISTA_SENTENCIAS
+    : r_case EXPRESION s_doble_dot LISTA_SENTENCIAS_METODOS
       {
         $$ = { etiqueta : "caso", valor : $2, sentencias: $4};
       }
     ;     
 
 DEFECTO
-    : r_default s_doble_dot LISTA_SENTENCIAS
+    : r_default s_doble_dot LISTA_SENTENCIAS_METODOS
       {
         $$ = { etiqueta : "defecto", sentencias: $3};
       }
     ;
 
 SENTENCIA_DO_WHILE
-    : r_do s_key_open LISTA_SENTENCIAS s_key_close r_while s_par_open EXPRESION s_par_close
+    : r_do s_key_open LISTA_SENTENCIAS_METODOS s_key_close r_while s_par_open EXPRESION s_par_close
       {
         $$ = {etiqueta : "sentencia_do_while", sentencias: $3, condicion : $7};
       }
     ;
 
 SENTENCIA_WHILE
-    : r_while s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS s_key_close
+    : r_while s_par_open EXPRESION s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close
       {
         $$ = {etiqueta : "sentencia_while", condicion : $3, sentencias: $6 };
       }
     ;
 
 SENTENCIA_FOR
-    : r_for s_par_open SENTENCIA_DECLARACION_INSTANCIA s_dot_coma EXPRESION s_dot_coma EXPRESION s_par_close s_key_open LISTA_SENTENCIAS s_key_close
+    : r_for s_par_open SENTENCIA_DECLARACION_INSTANCIA s_dot_coma EXPRESION s_dot_coma EXPRESION s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close
       {
         $$ = {etiqueta : "sentencia_for", inicio: $3, condicion: $5, actualizacion: $7, sentencias: $10 };
       }
-    |r_for s_par_open SENTENCIA_ASIGNACION s_dot_coma EXPRESION s_dot_coma EXPRESION s_par_close s_key_open LISTA_SENTENCIAS s_key_close
+    |r_for s_par_open SENTENCIA_ASIGNACION s_dot_coma EXPRESION s_dot_coma EXPRESION s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close
       {
         $$ = {etiqueta : "sentencia_for", inicio: $3, condicion: $5, actualizacion: $7, sentencias: $10 };
       }
     ;
 
 SENTENCIA_FOR_EACH
-    : r_for s_par_open SENTENCIA_DECLARACION_INSTANCIA s_doble_dot EXPRESION s_par_close s_key_open LISTA_SENTENCIAS s_key_close
+    : r_for s_par_open SENTENCIA_DECLARACION_INSTANCIA s_doble_dot EXPRESION s_par_close s_key_open LISTA_SENTENCIAS_METODOS s_key_close
       {
         $$ = {etiqueta : "sentencia_for_each", inicio: $3, valor: $5, sentencias: $8};
       } 
@@ -424,6 +506,17 @@ SENTENCIA_RETURN
         $$ = {etiqueta : "sentencia_return", valor : $2};
       }
     ;        
+
+SENTENCIA_LLAMADA
+    : identificador s_par_open LISTA_EXPRESIONES s_par_close
+      {
+        $$ = {etiqueta : "sentencia_llamada", identificador: $1, lista_parametros: $3};
+      }
+    | identificador s_par_open s_par_close
+      {
+        $$ = {etiqueta : "sentencia_llamada", identificador: $1};
+      }
+    ;
 
 SENTENCIA_IMPRIMIR
     : r_imprimir s_par_open EXPRESION s_par_close
@@ -456,6 +549,8 @@ EXPRESION
       {$$ = $1;}
     | OPERADOR_TERNARIO
       {$$ = $1;}  
+    | OPERADOR_POW
+      {$$ = $1;}  
     | s_par_open EXPRESION s_par_close
       {$$ = $2;}
     | SENTENCIA_INCREMENTO
@@ -463,7 +558,9 @@ EXPRESION
     | SENTENCIA_DECREMENTO  
       {$$ = $1;}
     | SENTENCIA_ACCESO
-      {$$ = $1;}     
+      {$$ = $1;}
+    | SENTENCIA_LLAMADA
+      {$$ = $1;}       
     | DATO_PRIMITIVO
       {$$ = $1;}     
     ;
@@ -512,6 +609,13 @@ OPERADOR_TERNARIO
     : EXPRESION s_ternario EXPRESION s_doble_dot EXPRESION
     {
       $$ = {etiqueta: "operador_ternario", comparacion: $1, valor1: $3, valor2: $5};
+    }
+    ;
+
+OPERADOR_POW
+    : r_pow s_par_open EXPRESION s_coma EXPRESION s_par_close
+    {
+      $$ = {etiqueta: "operador_pow", base: $3, potencia: $5};
     }
     ;
 

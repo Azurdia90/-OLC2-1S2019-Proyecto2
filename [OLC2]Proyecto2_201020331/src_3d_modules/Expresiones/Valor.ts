@@ -28,7 +28,7 @@ class Valor
         if(this.tipo == 0)
         {
             console.log("Vamos a devolver un valor primitivo : "  + this.valor);
-            resultado = new Simbolo(parseFloat(this.valor), 4);
+            resultado = new Simbolo(Number(this.valor), 4);
             return resultado;
         }
         else if(this.tipo == 1)
@@ -83,6 +83,13 @@ class Valor
             {
                 return new Simbolo(-33,12);
             }
+        }
+        else if(this.tipo == 5)
+        {   
+            var valor_negativo =  (-1) * Number(this.valor);
+            console.log("Vamos a devolver un valor primitivo : "  + valor_negativo);
+            resultado = new Simbolo(valor_negativo, 4);
+            return resultado;
         }
     }
 }

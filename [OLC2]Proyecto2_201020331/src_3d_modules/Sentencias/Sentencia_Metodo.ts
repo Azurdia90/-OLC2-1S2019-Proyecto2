@@ -90,7 +90,7 @@ class Sentencia_Metodo extends Instruccion
         }
         else if(subsuperjason['etiqueta'] == "sentencia_llamada")
         {
-            return new Sentencia_LLamada_Metodo(subsuperjason['valor'], this.lista_instrucciones);
+            return new Sentencia_LLamada_Metodo(subsuperjason['valor'], this.lista_instrucciones_padre);
         }
         else if(subsuperjason['etiqueta'] == "sentencia_imprimir")
         {            
@@ -160,13 +160,13 @@ class Sentencia_Metodo extends Instruccion
             {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
                 var operador2 = this.fabrica_expresiones(subsubsuperjason['operador2']);
-                return new Mayor_Igual_Que(operador1,operador2);
+                return new Menor_Igual_Que(operador1,operador2);
             }
             else if(subsubsuperjason['simbolo'] == '>=')
             {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
                 var operador2 = this.fabrica_expresiones(subsubsuperjason['operador2']);
-                return new Menor_Igual_Que(operador1,operador2);
+                return new Mayor_Igual_Que(operador1,operador2);
             }
             else if(subsubsuperjason['simbolo'] == '==')
             {
@@ -188,7 +188,7 @@ class Sentencia_Metodo extends Instruccion
         else if(subsubsuperjason['etiqueta'] == "valor_primitivo")
         {
             
-            if(subsubsuperjason['tipo']  == 0 || subsubsuperjason['tipo']  == 1  || subsubsuperjason['tipo']  == 2)
+            if(subsubsuperjason['tipo']  == 0 || subsubsuperjason['tipo']  == 1  || subsubsuperjason['tipo']  == 2 || subsubsuperjason['tipo']  == 5)
             {
                 return new Valor(subsubsuperjason['valor'], subsubsuperjason['tipo']);
             }
@@ -206,6 +206,10 @@ class Sentencia_Metodo extends Instruccion
 
     ejecutar(entorno_padre?: Map<String,Simbolo>)
     {
+        console.log("/*******************************************************/");
+        console.log("SE SE ESTA EJECUTANDO EL METODO: " + this.identificador);
+        console.log("/*******************************************************/");
+
         try
         {
             this.entorno_local = new Map<String,Simbolo>();

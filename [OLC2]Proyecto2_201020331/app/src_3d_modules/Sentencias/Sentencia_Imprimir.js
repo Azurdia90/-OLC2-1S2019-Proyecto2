@@ -37,7 +37,7 @@ var Sentencia_Imprimir = /** @class */ (function (_super) {
                         Tabla_Simbolos_1.default.classConsola = (resultado.classValor).toFixed(0);
                     }
                     else if (this.tipo_dato == "%d") {
-                        Tabla_Simbolos_1.default.classConsola = (resultado.classValor).toFixed(2);
+                        Tabla_Simbolos_1.default.classConsola = (resultado.classValor).toFixed(4);
                     }
                     else if (this.tipo_dato == "%c") {
                         Tabla_Simbolos_1.default.classConsola = String.fromCharCode(resultado.classValor);

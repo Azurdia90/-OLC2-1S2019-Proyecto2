@@ -12,7 +12,7 @@ class Modulo extends Expresion
         super(p_operador1,"%",p_operador2);
     }
 
-    ejecutar()
+    ejecutar(entorno_padre?: Map<String,Simbolo>, ptr_entorno?: Array<number>)
     {
         var tipo_modulo : tipo_operacion;
 
@@ -24,7 +24,7 @@ class Modulo extends Expresion
         {
             if(this.operador1 instanceof Expresion)
             {
-                valor1 = this.operador1.ejecutar();
+                valor1 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
             }
             else 
             {
@@ -33,7 +33,7 @@ class Modulo extends Expresion
     
             if(this.operador2 instanceof Expresion)
             {
-                valor2 = this.operador1.ejecutar();
+                valor2 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
             }
             else 
             {

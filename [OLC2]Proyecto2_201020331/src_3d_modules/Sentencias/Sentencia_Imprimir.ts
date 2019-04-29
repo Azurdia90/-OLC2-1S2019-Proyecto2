@@ -33,7 +33,7 @@ class Sentencia_Imprimir extends Instruccion
                     }
                     else if(this.tipo_dato == "%d")
                     {
-                        tabla_simbolos.classConsola = (resultado.classValor).toFixed(2);
+                        tabla_simbolos.classConsola = (resultado.classValor).toFixed(4);
                     }
                     else if(this.tipo_dato == "%c")
                     {

@@ -54,7 +54,7 @@ var Sentencia_Asignacion = /** @class */ (function (_super) {
                                     for (var i = 0; i < this.valor.length; i++) {
                                         var tam_dim;
                                         if (this.valor[i] instanceof Expresion_1.default) {
-                                            tam_dim = this.valor[i].ejecutar();
+                                            tam_dim = this.valor[i].ejecutar(entorno_local, ptr_entorno);
                                         }
                                         else if (this.valor[i] instanceof Simbolo_1.default) {
                                             tam_dim = this.valor[i];
@@ -176,7 +176,7 @@ var Sentencia_Asignacion = /** @class */ (function (_super) {
                                             resultado_d = lista_valores[y];
                                         }
                                         else if (lista_valores[y] instanceof Expresion_1.default) {
-                                            resultado_d = lista_valores[y].ejecutar();
+                                            resultado_d = lista_valores[y].ejecutar(entorno_local, ptr_entorno);
                                         }
                                         else {
                                             Tabla_Simbolos_1.default.limpiar_3d();
@@ -227,7 +227,7 @@ var Sentencia_Asignacion = /** @class */ (function (_super) {
                         else {
                             var valor_f;
                             if (this.valor instanceof Expresion_1.default) {
-                                valor_f = this.valor.ejecutar();
+                                valor_f = this.valor.ejecutar(entorno_local, ptr_entorno);
                             }
                             else if (this.valor instanceof Simbolo_1.default) {
                                 valor_f = this.valor;
@@ -247,8 +247,8 @@ var Sentencia_Asignacion = /** @class */ (function (_super) {
                             if (simbolo_asignar.classTipo == valor_f.classTipo) {
                                 Tabla_Simbolos_1.default.classCodigo_3D = "\n";
                                 var temporal_pos_stak = "t" + Tabla_Simbolos_1.default.classTemporal;
-                                Tabla_Simbolos_1.default.classCodigo_3D = temporal_pos_stak + " = P + " + simbolo_asignar.classValor;
-                                Tabla_Simbolos_1.default.classCodigo_3D = simbolo_asignar.classValor + " = Stack[" + temporal_pos_stak + "];\n";
+                                Tabla_Simbolos_1.default.classCodigo_3D = temporal_pos_stak + " = P + " + simbolo_asignar.classPos + ";\n";
+                                Tabla_Simbolos_1.default.classCodigo_3D = "Stack[" + temporal_pos_stak + "] = " + valor_f.classValor + ";\n";
                                 var resultado = new Simbolo_1.default();
                                 resultado.classAcceso = 0 /* publico */;
                                 resultado.classRol = 9 /* aceptado */;
@@ -297,7 +297,7 @@ var Sentencia_Asignacion = /** @class */ (function (_super) {
                     if (simbolo_asignar != undefined) {
                         var valor_f;
                         if (this.valor instanceof Expresion_1.default) {
-                            valor_f = this.valor.ejecutar();
+                            valor_f = this.valor.ejecutar(entorno_local, ptr_entorno);
                         }
                         else if (this.valor instanceof Simbolo_1.default) {
                             valor_f = this.valor;
@@ -330,7 +330,7 @@ var Sentencia_Asignacion = /** @class */ (function (_super) {
                             for (var i = 0; i < this.posicion.length; i++) {
                                 var tam_dim;
                                 if (this.posicion[i] instanceof Expresion_1.default) {
-                                    tam_dim = this.posicion[i].ejecutar();
+                                    tam_dim = this.posicion[i].ejecutar(entorno_local, ptr_entorno);
                                 }
                                 else if (this.posicion[i] instanceof Simbolo_1.default) {
                                     tam_dim = this.posicion[i];

@@ -87,7 +87,7 @@ var Sentencia_Metodo = /** @class */ (function (_super) {
             return new Sentencia_If_False_1.default(expresion_relacional, subsuperjason['falso'], this.lista_instrucciones);
         }
         else if (subsuperjason['etiqueta'] == "sentencia_llamada") {
-            return new Sentencia_LLamada_Metodo_1.default(subsuperjason['valor'], this.lista_instrucciones);
+            return new Sentencia_LLamada_Metodo_1.default(subsuperjason['valor'], this.lista_instrucciones_padre);
         }
         else if (subsuperjason['etiqueta'] == "sentencia_imprimir") {
             return new Sentencia_Imprimir_1.default(subsuperjason['tipo'], subsuperjason['valor']);
@@ -140,12 +140,12 @@ var Sentencia_Metodo = /** @class */ (function (_super) {
             else if (subsubsuperjason['simbolo'] == '<=') {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
                 var operador2 = this.fabrica_expresiones(subsubsuperjason['operador2']);
-                return new Mayor_Igual_Que_1.default(operador1, operador2);
+                return new Menor_Igual_Que_1.default(operador1, operador2);
             }
             else if (subsubsuperjason['simbolo'] == '>=') {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
                 var operador2 = this.fabrica_expresiones(subsubsuperjason['operador2']);
-                return new Menor_Igual_Que_1.default(operador1, operador2);
+                return new Mayor_Igual_Que_1.default(operador1, operador2);
             }
             else if (subsubsuperjason['simbolo'] == '==') {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
@@ -161,7 +161,7 @@ var Sentencia_Metodo = /** @class */ (function (_super) {
             }
         }
         else if (subsubsuperjason['etiqueta'] == "valor_primitivo") {
-            if (subsubsuperjason['tipo'] == 0 || subsubsuperjason['tipo'] == 1 || subsubsuperjason['tipo'] == 2) {
+            if (subsubsuperjason['tipo'] == 0 || subsubsuperjason['tipo'] == 1 || subsubsuperjason['tipo'] == 2 || subsubsuperjason['tipo'] == 5) {
                 return new Valor_1.default(subsubsuperjason['valor'], subsubsuperjason['tipo']);
             }
             else {
@@ -173,6 +173,9 @@ var Sentencia_Metodo = /** @class */ (function (_super) {
         }
     };
     Sentencia_Metodo.prototype.ejecutar = function (entorno_padre) {
+        console.log("/*******************************************************/");
+        console.log("SE SE ESTA EJECUTANDO EL METODO: " + this.identificador);
+        console.log("/*******************************************************/");
         try {
             this.entorno_local = new Map();
             Tabla_Simbolos_1.default.crear_entorno(this.entorno_local);

@@ -18,24 +18,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Expresion_1 = __importDefault(require("../Expresion"));
 var Simbolo_1 = __importDefault(require("../../Tabla_Simbolos/Simbolo"));
+var Tabla_Simbolos_1 = __importDefault(require("../../Tabla_Simbolos/Tabla_Simbolos"));
 var Or = /** @class */ (function (_super) {
     __extends(Or, _super);
     function Or(p_operador1, p_operador2) {
         return _super.call(this, p_operador1, "||", p_operador2) || this;
     }
-    Or.prototype.ejecutar = function () {
+    Or.prototype.ejecutar = function (entorno_padre, ptr_entorno) {
         var valor1;
         var valor2;
         var resultado;
         try {
             if (this.operador1 instanceof Expresion_1.default) {
-                valor1 = this.operador1.ejecutar();
+                valor1 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
             }
             else {
                 valor1 = this.operador1;
             }
             if (this.operador2 instanceof Expresion_1.default) {
-                valor2 = this.operador2.ejecutar();
+                valor2 = this.operador2.ejecutar(entorno_padre, ptr_entorno);
             }
             else {
                 valor2 = this.operador2;
@@ -48,9 +49,17 @@ var Or = /** @class */ (function (_super) {
             }
             resultado = new Simbolo_1.default();
             if (valor1.classTipo == 1 /* booleano */ && valor2.classTipo == 1 /* booleano */) {
-                //boolean val1_boolean = valor1.getValor().toString().equals("verdadero") ? true : false;
-                //boolean val2_boolean = valor2.getValor().toString().equals("verdadero") ? true : false;
-                //boolean resultado = val1_boolean && val2_boolean;
+                var etiqueta_positiva1 = "L" + Tabla_Simbolos_1.default.classEtiqueta;
+                var etiqueta_negativa1 = "L" + Tabla_Simbolos_1.default.classEtiqueta;
+                var etiqueta_positiva2 = "L" + Tabla_Simbolos_1.default.classEtiqueta;
+                var etiqueta_negativa2 = "L" + Tabla_Simbolos_1.default.classEtiqueta;
+                valor1 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
+                valor2 = this.operador2.ejecutar(entorno_padre, ptr_entorno);
+                Tabla_Simbolos_1.default.classCodigo_3D = "if(" + valor1.classValor + ") goto " + etiqueta_positiva1 + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "goto " + etiqueta_negativa1 + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = etiqueta_negativa1 + ":\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "if(" + valor2.classValor + ") goto " + etiqueta_positiva2 + ";\n";
+                Tabla_Simbolos_1.default.classCodigo_3D = "goto " + etiqueta_negativa2 + ";\n";
                 resultado.classAcceso = 0 /* publico */;
                 resultado.classRol = 9 /* aceptado */;
                 resultado.classTipo = 1 /* booleano */;

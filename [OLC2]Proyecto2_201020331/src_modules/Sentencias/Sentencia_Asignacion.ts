@@ -58,7 +58,7 @@ class Sentencia_Asignacion extends Instruccion
                                         var tam_dim :Simbolo;
                                         if(this.valor[i] instanceof Expresion)
                                         {
-                                            tam_dim = this.valor[i].ejecutar();
+                                            tam_dim = this.valor[i].ejecutar(entorno_local,ptr_entorno);
                                         }
                                         else if(this.valor[i] instanceof Simbolo)
                                         {
@@ -209,7 +209,7 @@ class Sentencia_Asignacion extends Instruccion
                                         } 
                                         else if(lista_valores[y] instanceof Expresion)
                                         {
-                                            resultado_d = lista_valores[y].ejecutar();
+                                            resultado_d = lista_valores[y].ejecutar(entorno_local,ptr_entorno);
                                         }
                                         else
                                         {
@@ -272,7 +272,7 @@ class Sentencia_Asignacion extends Instruccion
 
                             if(this.valor instanceof Expresion)   
                             {
-                                valor_f = this.valor.ejecutar();
+                                valor_f = this.valor.ejecutar(entorno_local,ptr_entorno);
                             }     
                             else if(this.valor instanceof Simbolo)
                             {
@@ -298,8 +298,8 @@ class Sentencia_Asignacion extends Instruccion
                             {   
                                 tabla_simbolos.classCodigo_3D = "\n"; 
                                 var temporal_pos_stak = "t" + tabla_simbolos.classTemporal;
-                                tabla_simbolos.classCodigo_3D = temporal_pos_stak + " = P + " + simbolo_asignar.classValor; 
-                                tabla_simbolos.classCodigo_3D = simbolo_asignar.classValor + " = Stack[" + temporal_pos_stak + "];\n";
+                                tabla_simbolos.classCodigo_3D = temporal_pos_stak + " = P + " + simbolo_asignar.classPos + ";\n"; 
+                                tabla_simbolos.classCodigo_3D = "Stack[" + temporal_pos_stak + "] = " + valor_f.classValor + ";\n";
     
                                 var resultado  = new Simbolo();
                                 resultado.classAcceso = tipo_acceso.publico;
@@ -361,7 +361,7 @@ class Sentencia_Asignacion extends Instruccion
 
                             if(this.valor instanceof Expresion)   
                             {
-                                valor_f = this.valor.ejecutar();
+                                valor_f = this.valor.ejecutar(entorno_local,ptr_entorno);
                             }     
                             else if(this.valor instanceof Simbolo)
                             {
@@ -404,7 +404,7 @@ class Sentencia_Asignacion extends Instruccion
                                 var tam_dim :Simbolo;
                                 if(this.posicion[i] instanceof Expresion)
                                 {
-                                    tam_dim = this.posicion[i].ejecutar();
+                                    tam_dim = this.posicion[i].ejecutar(entorno_local,ptr_entorno);
                                 }
                                 else if(this.posicion[i] instanceof Simbolo)
                                 {

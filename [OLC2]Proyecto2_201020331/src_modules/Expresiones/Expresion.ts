@@ -15,7 +15,31 @@ class Expresion extends Instruccion
         this.operador2 = p_operador2; 
     }
 
-    ejecutar()
+    ejecutar(entorno_padre?: Map<String,Simbolo>, ptr_entorno?: Array<number>)
+    {
+        try
+        {   
+            var resultado  = new Simbolo();
+            resultado.classAcceso = tipo_acceso.publico;
+            resultado.classRol = tipo_rol.aceptado;
+            resultado.classTipo = tipo_dato_primitivo.cadena;
+            resultado.classIdentificador = "10-4";
+            resultado.classValor = "Impresión realizada correctamente";
+            return resultado;
+
+        }            
+        catch(Error)
+        {
+            var resultado = new Simbolo();
+            resultado.classRol = tipo_rol.error;
+            resultado.classTipo = tipo_dato_primitivo.error;
+            resultado.classIdentificador = this.fila + "-" + this.columna;
+            resultado.classValor =  "Error: " + Error.message;        
+            return resultado;
+        }
+    }
+
+    evaluar(entorno_padre?: Map<String,Simbolo>, ptr_entorno?: Array<number>)
     {
         try
         {   

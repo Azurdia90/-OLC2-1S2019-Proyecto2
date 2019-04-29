@@ -24,20 +24,20 @@ var Modulo = /** @class */ (function (_super) {
     function Modulo(p_operador1, p_operador2) {
         return _super.call(this, p_operador1, "%", p_operador2) || this;
     }
-    Modulo.prototype.ejecutar = function () {
+    Modulo.prototype.ejecutar = function (entorno_padre, ptr_entorno) {
         var tipo_modulo;
         var valor1;
         var valor2;
         var resultado;
         try {
             if (this.operador1 instanceof Expresion_1.default) {
-                valor1 = this.operador1.ejecutar();
+                valor1 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
             }
             else {
                 valor1 = this.operador1;
             }
             if (this.operador2 instanceof Expresion_1.default) {
-                valor2 = this.operador1.ejecutar();
+                valor2 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
             }
             else {
                 valor2 = this.operador1;

@@ -34,20 +34,20 @@ var Division = /** @class */ (function (_super) {
         ];
         return _this;
     }
-    Division.prototype.ejecutar = function () {
+    Division.prototype.ejecutar = function (entorno_padre, ptr_entorno) {
         var tipo_division;
         var valor1;
         var valor2;
         var resultado;
         try {
             if (this.operador1 instanceof Expresion_1.default) {
-                valor1 = this.operador1.ejecutar();
+                valor1 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
             }
             else {
                 valor1 = this.operador1;
             }
             if (this.operador2 instanceof Expresion_1.default) {
-                valor2 = this.operador2.ejecutar();
+                valor2 = this.operador2.ejecutar(entorno_padre, ptr_entorno);
             }
             else {
                 valor2 = this.operador2;
@@ -135,6 +135,106 @@ var Division = /** @class */ (function (_super) {
         }
         catch (Error) {
             Tabla_Simbolos_1.default.limpiar_3d();
+            resultado = new Simbolo_1.default();
+            resultado.classRol = 10 /* error */;
+            resultado.classTipo = 6 /* error */;
+            resultado.classIdentificador = this.fila + "-" + this.columna;
+            resultado.classValor = "Error: " + Error.message;
+            return resultado;
+        }
+    };
+    Division.prototype.evaluar = function (entorno_padre, ptr_entorno) {
+        var tipo_division;
+        var valor1;
+        var valor2;
+        var resultado;
+        try {
+            if (this.operador1 instanceof Expresion_1.default) {
+                valor1 = this.operador1.evaluar(entorno_padre, ptr_entorno);
+            }
+            else {
+                valor1 = this.operador1;
+            }
+            if (this.operador2 instanceof Expresion_1.default) {
+                valor2 = this.operador2.evaluar(entorno_padre, ptr_entorno);
+            }
+            else {
+                valor2 = this.operador2;
+            }
+            if (valor1.classRol == 10 /* error */) {
+                return valor1;
+            }
+            if (valor2.classRol == 10 /* error */) {
+                return valor2;
+            }
+            tipo_division = this.tabla_division[valor1.classTipo][valor2.classTipo];
+            resultado = new Simbolo_1.default();
+            switch (tipo_division) {
+                case 18 /* division_decimal */:
+                    if (valor2.classValor != 0) {
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classRol = 9 /* aceptado */;
+                        resultado.classTipo = 3 /* decimal */;
+                        resultado.classIdentificador = "10-4";
+                        resultado.classValor = "10-4";
+                    }
+                    else {
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classRol = 10 /* error */;
+                        resultado.classTipo = 6 /* error */;
+                        resultado.classIdentificador = this.fila + "-" + this.columna;
+                        resultado.classValor = "Division entre cero.";
+                    }
+                    return resultado;
+                case 20 /* division_caracter_decimal */:
+                    if (valor2.classValor != 0) {
+                        resultado.classRol = 9 /* aceptado */;
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classIdentificador = "10-4";
+                        resultado.classTipo = 3 /* decimal */;
+                        resultado.classValor = "10-4";
+                    }
+                    else {
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classRol = 10 /* error */;
+                        resultado.classTipo = 6 /* error */;
+                        resultado.classIdentificador = "33-12";
+                        resultado.classValor = "Division entre cero.";
+                    }
+                    return resultado;
+                case 19 /* division_decimal_caracter */:
+                    if (valor2.classValor != 0) {
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classRol = 9 /* aceptado */;
+                        resultado.classTipo = 3 /* decimal */;
+                        resultado.classIdentificador = "10-4";
+                        resultado.classValor = "10-4";
+                    }
+                    else {
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classRol = 10 /* error */;
+                        resultado.classTipo = 6 /* error */;
+                        resultado.classIdentificador = this.fila + "-" + this.columna;
+                        resultado.classValor("Division entre cero.");
+                    }
+                    return resultado;
+                case 73 /* error */:
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 10 /* error */;
+                    resultado.classTipo = 6 /* error */;
+                    resultado.classIdentificador = this.fila + "-" + this.columna;
+                    resultado.classValor = "No es posible division un valor del tipo " + valor1.classTipo + " con un valor tipo " + valor2.classTipo + ".";
+                    return resultado;
+                default:
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 10 /* error */;
+                    resultado.classTipo = 6 /* error */;
+                    resultado.classIdentificador = this.fila + "-" + this.columna;
+                    resultado.classValor = "No es posible realizar la division, verifique los valores.";
+                    return resultado;
+            }
+        }
+        catch (Error) {
             resultado = new Simbolo_1.default();
             resultado.classRol = 10 /* error */;
             resultado.classTipo = 6 /* error */;

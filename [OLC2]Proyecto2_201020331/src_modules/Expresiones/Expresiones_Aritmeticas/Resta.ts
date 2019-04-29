@@ -20,7 +20,7 @@ class Resta extends Expresion
         super(p_operador1,"-", p_operador2);
     }
 
-    ejecutar()
+    ejecutar(entorno_padre?: Map<String,Simbolo>, ptr_entorno?: Array<number>)
     {
         var tipo_resta : tipo_operacion;
 
@@ -32,7 +32,7 @@ class Resta extends Expresion
         {
             if(this.operador1 instanceof Expresion)
             {
-                valor1 = this.operador1.ejecutar();
+                valor1 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
             }
             else 
             {
@@ -41,7 +41,7 @@ class Resta extends Expresion
     
             if(this.operador2 instanceof Expresion)
             {
-                valor2 = this.operador2.ejecutar();
+                valor2 = this.operador2.ejecutar(entorno_padre, ptr_entorno);
             }
             else 
             {
@@ -172,6 +172,135 @@ class Resta extends Expresion
             return resultado;
         }
     }
+
+    evaluar(entorno_padre?: Map<String,Simbolo>, ptr_entorno?: Array<number>)
+    {
+        var tipo_resta : tipo_operacion;
+
+        var valor1 : Simbolo;
+        var valor2 : Simbolo;        
+        var resultado : Simbolo;
+        
+        try
+        {
+            if(this.operador1 instanceof Expresion)
+            {
+                valor1 = this.operador1.evaluar(entorno_padre, ptr_entorno);
+            }
+            else 
+            {
+                valor1 = <Simbolo> this.operador1;
+            }
+    
+            if(this.operador2 instanceof Expresion)
+            {
+                valor2 = this.operador2.evaluar(entorno_padre, ptr_entorno);
+            }
+            else 
+            {
+                valor2 = <Simbolo> this.operador2;
+            }
+
+            if(valor1.classRol == tipo_rol.error)
+            {
+                return valor1;
+            }
+            
+            if(valor2.classRol == tipo_rol.error)
+            {
+                return valor2;
+            }
+
+            tipo_resta = this.tabla_resta[valor1.classTipo] [valor2.classTipo];
+            resultado = new Simbolo();
+
+            switch(tipo_resta)
+            {
+                case tipo_operacion.resta_entero:
+
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.entero;                    
+                    resultado.classIdentificador = "10-4";                    
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;
+                case tipo_operacion.resta_decimal:
+                    
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.decimal;                    
+                    resultado.classIdentificador = "10-4";                    
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;      
+                case tipo_operacion.resta_entero_caracter:                    
+                    
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.entero;
+                    resultado.classIdentificador = "10-4";  
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;
+                case tipo_operacion.resta_caracter_entero:
+                    
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.entero;
+                    resultado.classIdentificador = "10-4";                    
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;
+                case tipo_operacion.resta_decimal_caracter:
+                    
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.decimal; 
+                    resultado.classIdentificador = "10-4";
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;
+                case tipo_operacion.resta_caracter_decimal:
+                    
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.decimal;
+                    resultado.classIdentificador = "10-4";
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;                     
+                case tipo_operacion.error:            
+
+                    resultado.classAcceso = tipo_acceso.publico;    
+                    resultado.classRol = tipo_rol.error;
+                    resultado.classTipo = tipo_dato_primitivo.error;                    
+                    resultado.classIdentificador = this.fila + " - " + this.columna;                    
+                    resultado.classValor = "No es posible restar un valor del tipo " + valor1.classTipo + " con un valor tipo " + valor2.classTipo + ".";
+                    
+                    return resultado;
+                default:
+
+                    resultado.classAcceso = tipo_acceso.publico;    
+                    resultado.classRol = tipo_rol.error;                    
+                    resultado.classIdentificador = this.fila + "-" + this.columna;
+                    resultado.classTipo = tipo_dato_primitivo.error;
+                    resultado.classValor = "No es posible realizar la resta, verifique los valores.";
+                    
+                    return resultado;
+            }
+        }
+        catch(Error)
+        {
+            resultado = new Simbolo();
+            resultado.classRol = tipo_rol.error;
+            resultado.classTipo = tipo_dato_primitivo.error;
+            resultado.classIdentificador = this.fila + "-" + this.columna;
+            resultado.classValor =  "Error: " + Error.message;        
+            return resultado;
+        }
+    }
+
 }
 
 export default Resta;

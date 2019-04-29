@@ -12,14 +12,14 @@ class Diferente_Que extends Expresion
                                             /*caracter*/[tipo_operacion.diferente_nulo,tipo_operacion.error,tipo_operacion.diferente_caracter_numerico,tipo_operacion.diferente_caracter_numerico,tipo_operacion.diferente_caracter,tipo_operacion.diferente_caracter,tipo_operacion.error,tipo_operacion.error],
                                             /*cadena*/  [tipo_operacion.diferente_nulo,tipo_operacion.error,tipo_operacion.diferente_caracter_numerico,tipo_operacion.diferente_caracter_numerico,tipo_operacion.diferente_caracter,tipo_operacion.diferente_caracter,tipo_operacion.error,tipo_operacion.error],
                                             /*error*/   [tipo_operacion.error,tipo_operacion.error,tipo_operacion.error,tipo_operacion.error,tipo_operacion.error,tipo_operacion.error,tipo_operacion.error,tipo_operacion.error]
-                                                    ]
+                                                    ];
 
     constructor(p_operador1: (Expresion|Simbolo), p_operador2: (Expresion|Simbolo))
     {
         super(p_operador1,"!=", p_operador2);
     }
 
-    ejecutar()
+    ejecutar(entorno_padre: Map<String,Simbolo>, ptr_entorno: Array<number>)
     {
         var tipo_diferente_que: tipo_operacion;
 
@@ -31,7 +31,7 @@ class Diferente_Que extends Expresion
         {
             if(this.operador1 instanceof Expresion)
             {
-                valor1 = this.operador1.ejecutar();
+                valor1 = this.operador1.ejecutar(entorno_padre, ptr_entorno);
             }
             else 
             {
@@ -40,7 +40,7 @@ class Diferente_Que extends Expresion
     
             if(this.operador2 instanceof Expresion)
             {
-                valor2 = this.operador2.ejecutar();
+                valor2 = this.operador2.ejecutar(entorno_padre, ptr_entorno);
             }
             else 
             {
@@ -62,7 +62,7 @@ class Diferente_Que extends Expresion
 
             switch(tipo_diferente_que)
             {
-                case tipo_operacion.igual_numerico:
+                case tipo_operacion.diferente_numerico:
                     resultado.classAcceso = tipo_acceso.publico;
                     resultado.classRol = tipo_rol.aceptado;                    
                     resultado.classIdentificador = "10-4";
@@ -70,7 +70,7 @@ class Diferente_Que extends Expresion
                     resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;
-                case tipo_operacion.igual_caracter:
+                case tipo_operacion.diferente_caracter:
                     resultado.classAcceso = tipo_acceso.publico;
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
@@ -78,7 +78,7 @@ class Diferente_Que extends Expresion
                     resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;      
-                case tipo_operacion.igual_booleano:                    
+                case tipo_operacion.diferente_booleano:                    
                     resultado.classAcceso = tipo_acceso.publico;
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
@@ -86,7 +86,7 @@ class Diferente_Que extends Expresion
                     resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;
-                case tipo_operacion.igual_numerico_caracter: 
+                case tipo_operacion.diferente_numerico_caracter: 
                     resultado.classAcceso = tipo_acceso.publico;
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
@@ -94,7 +94,7 @@ class Diferente_Que extends Expresion
                     resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;
-                case tipo_operacion.igual_caracter_numerico:
+                case tipo_operacion.diferente_caracter_numerico:
                     resultado.classAcceso = tipo_acceso.publico;
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;                    
@@ -102,7 +102,7 @@ class Diferente_Que extends Expresion
                     resultado.classValor = valor1.classValor + " != " + valor2.classValor;
                     
                     return resultado;      
-                case tipo_operacion.igual_nulo:
+                case tipo_operacion.diferente_nulo:
                     resultado.classAcceso = tipo_acceso.publico;
                     resultado.classRol = tipo_rol.aceptado;
                     resultado.classTipo = tipo_dato_primitivo.booleano;
@@ -146,6 +146,130 @@ class Diferente_Que extends Expresion
             return resultado;
         }
     }
+
+    evaluar(entorno_padre: Map<String,Simbolo>, ptr_entorno: Array<number>)
+    {
+        var tipo_diferente_que: tipo_operacion;
+
+        var valor1 : Simbolo;
+        var valor2 : Simbolo;        
+        var resultado : Simbolo;
+        
+        try
+        {
+            if(this.operador1 instanceof Expresion)
+            {
+                valor1 = this.operador1.evaluar(entorno_padre, ptr_entorno);
+            }
+            else 
+            {
+                valor1 = <Simbolo> this.operador1;
+            }
+    
+            if(this.operador2 instanceof Expresion)
+            {
+                valor2 = this.operador2.evaluar(entorno_padre, ptr_entorno);
+            }
+            else 
+            {
+                valor2 = <Simbolo> this.operador2;
+            }
+
+            if(valor1.classRol == tipo_rol.error )
+            {
+                return valor1;
+            }
+            
+            if(valor2.classRol == tipo_rol.error)
+            {
+                return valor2;
+            }
+
+            tipo_diferente_que = this.tabla_diferente_que[valor1.classTipo] [valor2.classTipo];
+            resultado = new Simbolo();
+
+            switch(tipo_diferente_que)
+            {
+                case tipo_operacion.diferente_numerico:
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;                    
+                    resultado.classIdentificador = "10-4";
+                    resultado.classTipo = tipo_dato_primitivo.booleano;
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;
+                case tipo_operacion.diferente_caracter:
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.booleano;
+                    resultado.classIdentificador = "10-4";                    
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;      
+                case tipo_operacion.diferente_booleano:                    
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.booleano;
+                    resultado.classIdentificador = "10-4";                    
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;
+                case tipo_operacion.diferente_numerico_caracter: 
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.booleano;
+                    resultado.classIdentificador = "10-4";                    
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;
+                case tipo_operacion.diferente_caracter_numerico:
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.booleano;                    
+                    resultado.classIdentificador = "10-4";                    
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;      
+                case tipo_operacion.diferente_nulo:
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.aceptado;
+                    resultado.classTipo = tipo_dato_primitivo.booleano;
+                    resultado.classIdentificador = "10-4";                    
+                    resultado.classValor = "10-4";
+                    
+                    return resultado;     
+                case tipo_operacion.error:
+                
+                    resultado.classAcceso = tipo_acceso.publico;    
+                    resultado.classRol = tipo_rol.error;
+                    resultado.classTipo = tipo_dato_primitivo.error;
+                    resultado.classIdentificador = this.fila + "-" + this.columna;                    
+                    resultado.classValor = "No es posible relacionar un valor del tipo " + valor1.classTipo + " con un valor tipo " + valor2.classTipo +".";
+                    
+                    return resultado;
+                default:
+
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.error;                    
+                    resultado.classTipo = tipo_dato_primitivo.error;
+                    resultado.classIdentificador = this.fila + "-" + this.columna;                    
+                    resultado.classValor = "No es posible realizar diferente que, verifique los valores.";
+                    
+                    return resultado;
+            }
+        }
+        catch(Error)
+        {
+
+            resultado = new Simbolo();
+            resultado.classRol = tipo_rol.error;
+            resultado.classTipo = tipo_dato_primitivo.error;
+            resultado.classIdentificador = this.fila + "-" + this.columna;
+            resultado.classValor =  "Error: " + Error.message;        
+            return resultado;
+        }
+    }
+
 }
 
 export default Diferente_Que;

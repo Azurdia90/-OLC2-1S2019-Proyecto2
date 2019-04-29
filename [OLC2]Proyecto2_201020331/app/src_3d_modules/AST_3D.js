@@ -134,12 +134,12 @@ var AST_3D = /** @class */ (function () {
             else if (subsubsuperjason['simbolo'] == '<=') {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
                 var operador2 = this.fabrica_expresiones(subsubsuperjason['operador2']);
-                return new Mayor_Igual_Que_1.default(operador1, operador2);
+                return new Menor_Igual_Que_1.default(operador1, operador2);
             }
             else if (subsubsuperjason['simbolo'] == '>=') {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
                 var operador2 = this.fabrica_expresiones(subsubsuperjason['operador2']);
-                return new Menor_Igual_Que_1.default(operador1, operador2);
+                return new Mayor_Igual_Que_1.default(operador1, operador2);
             }
             else if (subsubsuperjason['simbolo'] == '==') {
                 var operador1 = this.fabrica_expresiones(subsubsuperjason['operador1']);
@@ -155,7 +155,7 @@ var AST_3D = /** @class */ (function () {
             }
         }
         else if (subsubsuperjason['etiqueta'] == "valor_primitivo") {
-            if (subsubsuperjason['tipo'] == 0 || subsubsuperjason['tipo'] == 1 || subsubsuperjason['tipo'] == 2) {
+            if (subsubsuperjason['tipo'] == 0 || subsubsuperjason['tipo'] == 1 || subsubsuperjason['tipo'] == 2 || subsubsuperjason['tipo'] == 5) {
                 return new Valor_1.default(subsubsuperjason['valor'], subsubsuperjason['tipo']);
             }
             else {

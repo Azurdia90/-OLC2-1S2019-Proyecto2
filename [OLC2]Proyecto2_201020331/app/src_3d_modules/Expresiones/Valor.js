@@ -22,7 +22,7 @@ var Valor = /** @class */ (function () {
         var resultado;
         if (this.tipo == 0) {
             console.log("Vamos a devolver un valor primitivo : " + this.valor);
-            resultado = new Simbolo_1.default(parseFloat(this.valor), 4);
+            resultado = new Simbolo_1.default(Number(this.valor), 4);
             return resultado;
         }
         else if (this.tipo == 1) {
@@ -63,6 +63,12 @@ var Valor = /** @class */ (function () {
             else {
                 return new Simbolo_1.default(-33, 12);
             }
+        }
+        else if (this.tipo == 5) {
+            var valor_negativo = (-1) * Number(this.valor);
+            console.log("Vamos a devolver un valor primitivo : " + valor_negativo);
+            resultado = new Simbolo_1.default(valor_negativo, 4);
+            return resultado;
         }
     };
     return Valor;

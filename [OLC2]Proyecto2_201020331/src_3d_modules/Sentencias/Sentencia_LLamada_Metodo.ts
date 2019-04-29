@@ -17,14 +17,14 @@ class Sentencia_LLamada_Metodo extends Instruccion
     ejecutar(entorno_local?: Map<String,Simbolo>)
     {
         try
-        {
+        {            
             for(var i = 0; i < this.lista_instrucciones.length; i++)
             {
                 if(this.lista_instrucciones[i] instanceof Sentencia_Metodo)
                 {
                     var destino : Sentencia_Metodo = <Sentencia_Metodo> this.lista_instrucciones[i];
                     if(destino.classId == this.identificador)
-                    {
+                    {                        
                         destino.ejecutar(entorno_local);
                         return new Simbolo(-10,-14);
                     }                    

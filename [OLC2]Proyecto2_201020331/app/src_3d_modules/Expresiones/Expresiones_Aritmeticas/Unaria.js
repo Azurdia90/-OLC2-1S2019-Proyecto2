@@ -18,27 +18,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Expresion_1 = __importDefault(require("../Expresion"));
 var Simbolo_1 = __importDefault(require("../../Estructuras/Simbolo"));
-var Suma = /** @class */ (function (_super) {
-    __extends(Suma, _super);
-    function Suma(p_operador1, p_operador2) {
-        return _super.call(this, p_operador1, "+", p_operador2) || this;
+var Unaria = /** @class */ (function (_super) {
+    __extends(Unaria, _super);
+    function Unaria(p_operador1, p_operador2) {
+        return _super.call(this, p_operador1, "-", p_operador2) || this;
     }
-    Suma.prototype.ejecutar = function (entorno_local) {
+    Unaria.prototype.ejecutar = function (entorno_local) {
         var resultado;
         try {
             var valor1 = this.operador1.ejecutar(entorno_local);
-            var valor2 = this.operador2.ejecutar(entorno_local);
             if (valor1 == undefined) {
                 return new Simbolo_1.default(-33, -12);
             }
-            if (valor2 == undefined) {
-                return new Simbolo_1.default(-33, -12);
-            }
-            var res_suma;
+            var res_unario;
             var new_tam;
-            res_suma = valor1.classValor + valor2.classValor;
-            new_tam = valor1.classTam + valor2.classTam;
-            resultado = new Simbolo_1.default(res_suma, new_tam);
+            res_unario = (-1) * valor1.classValor;
+            new_tam = valor1.classTam;
+            resultado = new Simbolo_1.default(res_unario, new_tam);
             return resultado;
         }
         catch (Error) {
@@ -47,6 +43,6 @@ var Suma = /** @class */ (function (_super) {
             return resultado;
         }
     };
-    return Suma;
+    return Unaria;
 }(Expresion_1.default));
-exports.default = Suma;
+exports.default = Unaria;

@@ -16,7 +16,7 @@ class Sentencia_Acceso extends Expresion
         this.posicion = p_posicion;
     }
 
-    ejecutar()
+    ejecutar(entorno_padre: Map<String,Simbolo>, ptr_entorno: Array<number>)
     {
         try
         {
@@ -29,7 +29,8 @@ class Sentencia_Acceso extends Expresion
                     {
                         var temporal_posicion_stack = "t" + tabla_simbolos.classTemporal;
                         var temporal_acceso = "t" + tabla_simbolos.classTemporal;
-
+                        
+                        tabla_simbolos.classCodigo_3D = "\n"
                         tabla_simbolos.classCodigo_3D = temporal_posicion_stack +  " = P + " + retorno.classPos + ";\n";
                         tabla_simbolos.classCodigo_3D = temporal_acceso + " = Stack[" + temporal_posicion_stack + "];\n";
 
@@ -92,7 +93,7 @@ class Sentencia_Acceso extends Expresion
                             var tam_dim :Simbolo;
                             if(this.posicion[i] instanceof Expresion)
                             {
-                                tam_dim = this.posicion[i].ejecutar();
+                                tam_dim = this.posicion[i].ejecutar(entorno_padre, ptr_entorno);
                             }
                             else if(this.posicion[i] instanceof Simbolo)
                             {
@@ -173,6 +174,129 @@ class Sentencia_Acceso extends Expresion
         }
     }
 
+    evaluar(entorno_padre: Map<String,Simbolo>, ptr_entorno: Array<number>)
+    {
+        try
+        {
+            if(this.tipo ==0)
+            {
+                if(tabla_simbolos.existe_simbolo(this.identificador))
+                {
+                    var retorno = tabla_simbolos.obtener_simbolo(this.identificador);
+                    if(retorno != undefined)
+                    {
+
+                        var resultado  = new Simbolo();
+                        resultado.classAcceso = tipo_acceso.publico;
+                        resultado.classRol = retorno.classRol;
+                        resultado.classTipo = retorno.classTipo;
+                        resultado.classIdentificador = retorno.classIdentificador;
+                        resultado.classValor = "10-4";
+                        resultado.classPos = retorno.classPos;
+                        resultado.classTam = retorno.classTam;
+                        return resultado;                        
+                    }
+                    else
+                    {
+                        var resultado  = new Simbolo();
+                        resultado.classAcceso = tipo_acceso.publico;
+                        resultado.classRol = tipo_rol.error;
+                        resultado.classTipo = tipo_dato_primitivo.cadena;
+                        resultado.classIdentificador = "33-12";
+                        resultado.classValor = "La variable \"" + this.identificador + "\" no existe.";
+                        return resultado;
+                    }                    
+                }
+                else
+                {
+                    var resultado  = new Simbolo();
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.error;
+                    resultado.classTipo = tipo_dato_primitivo.cadena;
+                    resultado.classIdentificador = "33-12";
+                    resultado.classValor = "La variable \"" + this.identificador + "\" no existe.";
+                    return resultado;
+                }                
+            }
+            else if(this.tipo == 1)
+            {
+                if(tabla_simbolos.existe_simbolo(this.identificador))
+                {
+                    var retorno = tabla_simbolos.obtener_simbolo(this.identificador);
+
+                    if(retorno != undefined)
+                    {
+
+                        for(var i = 0; i < this.posicion.length; i++)
+                        {
+                            var tam_dim :Simbolo;
+                            if(this.posicion[i] instanceof Expresion)
+                            {
+                                tam_dim = this.posicion[i].evaluar(entorno_padre, ptr_entorno);
+                            }
+                            else if(this.posicion[i] instanceof Simbolo)
+                            {
+                                tam_dim = this.posicion[i];
+                            }
+                            else
+                            {
+                                tam_dim = new Simbolo();
+                            }
+                        }
+
+                        var resultado  = new Simbolo();
+                        resultado.classAcceso = tipo_acceso.publico;
+                        resultado.classRol = tipo_rol.aceptado;
+                        resultado.classTipo = retorno.classTipo;
+                        resultado.classIdentificador = retorno.classIdentificador;
+                        resultado.classValor = "10-4";
+                        return resultado;
+                    }
+                    else
+                    {
+                        var resultado  = new Simbolo();
+                        resultado.classAcceso = tipo_acceso.publico;
+                        resultado.classRol = tipo_rol.error;
+                        resultado.classTipo = tipo_dato_primitivo.cadena;
+                        resultado.classIdentificador = "33-12";
+                        resultado.classValor = "El retorno \"" + this.identificador + "\" no existe.";
+                        return resultado;
+                    }                    
+                }
+                else
+                {
+                    var resultado  = new Simbolo();
+                    resultado.classAcceso = tipo_acceso.publico;
+                    resultado.classRol = tipo_rol.error;
+                    resultado.classTipo = tipo_dato_primitivo.cadena;
+                    resultado.classIdentificador = "33-12";
+                    resultado.classValor = "La variable \"" + this.identificador + "\" no existe.";
+                    return resultado;
+                }   
+            }
+            else
+            {
+                var resultado  = new Simbolo();
+                resultado.classAcceso = tipo_acceso.publico;
+                resultado.classRol = tipo_rol.error;
+                resultado.classTipo = tipo_dato_primitivo.cadena;
+                resultado.classIdentificador = "33-12";
+                resultado.classValor = "Acceso No realizado correctamente: Funcionalidad No implementada Aun.";
+                return resultado;
+            }
+        }
+        catch(Error)
+        {
+            
+            var resultado  = new Simbolo();
+            resultado.classAcceso = tipo_acceso.publico;
+            resultado.classRol = tipo_rol.error;
+            resultado.classTipo = tipo_dato_primitivo.cadena;
+            resultado.classIdentificador = "33-12";
+            resultado.classValor = "Acceso No realizado correctamente: " + Error.Message;
+            return resultado;
+        }
+    }
 }
 
 export default Sentencia_Acceso;

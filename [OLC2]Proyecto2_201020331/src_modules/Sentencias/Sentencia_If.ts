@@ -38,6 +38,37 @@ class Sentencia_If extends Instruccion
             var etiqueta_falsa : String;
             var etiqueta_salida : String;
 
+            var resultado_evaluacion;
+
+            if(this.evaluacion instanceof Expresion)
+            {
+                resultado_evaluacion = this.evaluacion.ejecutar(entorno_padre);
+            }
+            else if(this.evaluacion instanceof Simbolo)
+            {
+                resultado_evaluacion = this.evaluacion;
+            }
+            else
+            {
+                tabla_simbolos.classEntornos.desapilar();
+                tabla_simbolos.limpiar_3d();
+
+                var resultado  = new Simbolo();
+                resultado.classAcceso = tipo_acceso.publico;
+                resultado.classRol = tipo_rol.error;
+                resultado.classTipo = tipo_dato_primitivo.cadena;
+                resultado.classIdentificador = "33-12";
+                resultado.classValor = "Sentencia If No realizada correctamente: El valor a evaluar no es posible definir.";
+                return resultado;  
+            }
+
+            if(resultado_evaluacion.classRol == tipo_rol.error)
+            {
+                tabla_simbolos.classEntornos.desapilar();
+                return resultado_evaluacion;
+            }
+
+
             etiqueta_verdadera  = "L" + tabla_simbolos.classEtiqueta;
 
             if(p_etiqueta_falsa != undefined && p_etiqueta_falsa != "")
@@ -50,34 +81,94 @@ class Sentencia_If extends Instruccion
             }                        
             
             if(p_etiqueta_salida != undefined && p_etiqueta_salida != "")
-            {
-                etiqueta_salida = p_etiqueta_salida;
+            {         
+                etiqueta_salida = p_etiqueta_salida; 
             }
             else
             {
-                etiqueta_salida = "L" + tabla_simbolos.classEtiqueta;
+                if(resultado_evaluacion.classTipo == tipo_dato_primitivo.cadena)
+                {
+                    etiqueta_salida = resultado_evaluacion.classValor;
+                }
+                else
+                {
+                    etiqueta_salida = "L" + tabla_simbolos.classEtiqueta;
+                }                     
             }
-            
-            var resultado_evaluacion = this.evaluacion.ejecutar(entorno_padre);
-            
-            if(resultado_evaluacion.classRol == tipo_rol.error)
-            {
-                tabla_simbolos.classEntornos.desapilar();
-                return resultado_evaluacion;
-            }
-
+                        
             if(resultado_evaluacion.classTipo  == tipo_dato_primitivo.booleano)
             {
                 tabla_simbolos.classCodigo_3D = "if( " + resultado_evaluacion.classValor + ") goto " + etiqueta_verdadera + ";\n";
                 tabla_simbolos.classCodigo_3D = "goto " + etiqueta_falsa + ";\n";
                 tabla_simbolos.classCodigo_3D = etiqueta_verdadera + ":\n";
+            }
+            else if(resultado_evaluacion.classTipo  == tipo_dato_primitivo.cadena)
+            {
+                /* SIGA EL FLRUJO DEL OR,AND,NOT */
+            }
+            else
+            {
+                tabla_simbolos.classEntornos.desapilar();
+                tabla_simbolos.limpiar_3d();
 
-                for(var i = 0; i < this.lista_instrucciones.length; i++)
+                var resultado  = new Simbolo();
+                resultado.classAcceso = tipo_acceso.publico;
+                resultado.classRol = tipo_rol.error;
+                resultado.classTipo = tipo_dato_primitivo.cadena;
+                resultado.classIdentificador = "33-12";
+                resultado.classValor = "Sentencia If No realizada correctamente: El valor a evaluar no es de tipo booleano.";
+                return resultado;                
+            }                  
+
+            for(var i = 0; i < this.lista_instrucciones.length; i++)
+            {
+                var sentencia;
+                var resultado_sentencia;
+            
+                sentencia = this.lista_instrucciones[i];
+                
+                if(sentencia instanceof Sentencia_Break)
+                {
+                    resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_fin);
+                }
+                else if(sentencia instanceof Sentencia_Continue)
+                {
+                    resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_inicio);
+                }
+                else if(sentencia instanceof Sentencia_Return) //pendiente ceremonia cambio de ambito
+                {
+                    resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno);
+                }
+                else if(sentencia instanceof Sentencia_Switch)
+                {
+                    resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno,etiqueta_inicio,etiqueta_fin);
+                }
+                else if(sentencia instanceof Sentencia_If)
+                {
+                    resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno,etiqueta_inicio,etiqueta_fin);
+                }
+                else
+                {
+                    resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno);
+                }           
+
+                if(resultado_sentencia.classRol == tipo_rol.error)
+                {
+                    tabla_simbolos.classEntornos.desapilar();
+                    return resultado_sentencia;
+                }
+            }
+            
+            tabla_simbolos.classCodigo_3D = "goto " + etiqueta_salida + ";\n";
+
+            if(this.tipo == 0)
+            {
+                for(var i = 0; i < this.lista_instrucciones_else_if.length; i++)
                 {
                     var sentencia;
                     var resultado_sentencia;
                 
-                    sentencia = this.lista_instrucciones[i];
+                    sentencia = this.lista_instrucciones_else_if[i];
                     
                     if(sentencia instanceof Sentencia_Break)
                     {
@@ -85,7 +176,46 @@ class Sentencia_If extends Instruccion
                     }
                     else if(sentencia instanceof Sentencia_Continue)
                     {
+                        resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_inicio);
+                    }
+                    else if(sentencia instanceof Sentencia_Return) //pendiente ceremonia cambio de ambito
+                    {
+                        resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno);
+                    }
+                    else if(sentencia instanceof Sentencia_Switch)
+                    {
+                        resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno,etiqueta_inicio,etiqueta_fin);
+                    }
+                    else if(sentencia instanceof Sentencia_If)
+                    {
+                        resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno,etiqueta_inicio,etiqueta_fin,etiqueta_falsa,etiqueta_salida);
+                    }                        
+                    else
+                    {
+                        resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno);
+                    }           
+
+                    if(resultado_sentencia.classRol == tipo_rol.error)
+                    {
+                        tabla_simbolos.classEntornos.desapilar();
+                        return resultado_sentencia;
+                    }                   
+                }
+                tabla_simbolos.classCodigo_3D = etiqueta_falsa + ":\n";
+                for(var i = 0; i < this.lista_instrucciones_else.length; i++)
+                {
+                    var sentencia;
+                    var resultado_sentencia;
+                
+                    sentencia = this.lista_instrucciones_else[i];
+                    
+                    if(sentencia instanceof Sentencia_Break)
+                    {
                         resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_fin);
+                    }
+                    else if(sentencia instanceof Sentencia_Continue)
+                    {
+                        resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_inicio);
                     }
                     else if(sentencia instanceof Sentencia_Return) //pendiente ceremonia cambio de ambito
                     {
@@ -111,112 +241,20 @@ class Sentencia_If extends Instruccion
                     }
                 }
                 
-                tabla_simbolos.classCodigo_3D = "goto " + etiqueta_salida + ";\n";
-                if(this.tipo == 0)
-                {
-                    for(var i = 0; i < this.lista_instrucciones_else_if.length; i++)
-                    {
-                        var sentencia;
-                        var resultado_sentencia;
-                    
-                        sentencia = this.lista_instrucciones[i];
-                        
-                        if(sentencia instanceof Sentencia_Break)
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_fin);
-                        }
-                        else if(sentencia instanceof Sentencia_Continue)
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_inicio);
-                        }
-                        else if(sentencia instanceof Sentencia_Return) //pendiente ceremonia cambio de ambito
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno);
-                        }
-                        else if(sentencia instanceof Sentencia_Switch)
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno,etiqueta_inicio,etiqueta_fin);
-                        }
-                        else if(sentencia instanceof Sentencia_If)
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno,etiqueta_inicio,etiqueta_fin,etiqueta_falsa,etiqueta_salida);
-                        }                        
-                        else
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno);
-                        }           
-
-                        if(resultado_sentencia.classRol == tipo_rol.error)
-                        {
-                            tabla_simbolos.classEntornos.desapilar();
-                            return resultado_sentencia;
-                        }                   
-                    }
-                    tabla_simbolos.classCodigo_3D = etiqueta_falsa + ":\n";
-                    for(var i = 0; i < this.lista_instrucciones_else.length; i++)
-                    {
-                        var sentencia;
-                        var resultado_sentencia;
-                    
-                        sentencia = this.lista_instrucciones_else[i];
-                        
-                        if(sentencia instanceof Sentencia_Break)
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_fin);
-                        }
-                        else if(sentencia instanceof Sentencia_Continue)
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_inicio);
-                        }
-                        else if(sentencia instanceof Sentencia_Return) //pendiente ceremonia cambio de ambito
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno);
-                        }
-                        else if(sentencia instanceof Sentencia_Switch)
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno,etiqueta_inicio,etiqueta_fin);
-                        }
-                        else if(sentencia instanceof Sentencia_If)
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno,etiqueta_inicio,etiqueta_fin);
-                        }
-                        else
-                        {
-                            resultado_sentencia = sentencia.ejecutar(this.entorno_local,ptr_entorno,etiqueta_retorno);
-                        }           
-
-                        if(resultado_sentencia.classRol == tipo_rol.error)
-                        {
-                            tabla_simbolos.classEntornos.desapilar();
-                            return resultado_sentencia;
-                        }
-                    }
-                    tabla_simbolos.classCodigo_3D = etiqueta_salida + ":\n";
-                }
-                        
-                tabla_simbolos.classEntornos.desapilar();
-
-                var resultado  = new Simbolo();
-                resultado.classAcceso = tipo_acceso.publico;
-                resultado.classRol = tipo_rol.aceptado;
-                resultado.classTipo = tipo_dato_primitivo.cadena;
-                resultado.classIdentificador = "10-4";
-                resultado.classValor = "Sentencia If  realizada correctamente";
-                return resultado;
             }
-            else
-            {
-                tabla_simbolos.classEntornos.desapilar();
-                tabla_simbolos.limpiar_3d();
 
-                var resultado  = new Simbolo();
-                resultado.classAcceso = tipo_acceso.publico;
-                resultado.classRol = tipo_rol.error;
-                resultado.classTipo = tipo_dato_primitivo.cadena;
-                resultado.classIdentificador = "33-12";
-                resultado.classValor = "Sentencia If No realizada correctamente: El valor a evaluar no es de tipo booleano.";
-                return resultado;                
-            }            
+            tabla_simbolos.classCodigo_3D = etiqueta_salida + ":\n";
+
+            tabla_simbolos.classEntornos.desapilar();
+
+            var resultado  = new Simbolo();
+            resultado.classAcceso = tipo_acceso.publico;
+            resultado.classRol = tipo_rol.aceptado;
+            resultado.classTipo = tipo_dato_primitivo.cadena;
+            resultado.classIdentificador = "10-4";
+            resultado.classValor = "Sentencia If  realizada correctamente";
+            return resultado;
+          
         }
         catch(Error)
         {

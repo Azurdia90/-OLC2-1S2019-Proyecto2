@@ -30,12 +30,11 @@ class Multiplicacion extends Expresion
             var res_multiplicacion  : number; 
             var new_tam   : number;
             
-            res_multiplicacion = valor1.classValor * valor2.classValor;
+            res_multiplicacion =  valor1.classValor  * valor2.classValor;
             new_tam  =  valor1.classTam + valor2.classTam;
 
             resultado = new Simbolo(res_multiplicacion, new_tam);
             return resultado;
-
         }            
         catch(Error)
         {

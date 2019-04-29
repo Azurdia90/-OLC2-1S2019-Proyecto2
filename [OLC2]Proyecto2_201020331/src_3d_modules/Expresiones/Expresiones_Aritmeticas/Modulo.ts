@@ -31,8 +31,10 @@ class Modulo extends Expresion
             var res_mod  : number; 
             var new_tam   : number;
             
-            res_mod = valor1.classValor % valor2.classValor;
+            res_mod =   valor1.classValor % valor2.classValor;
             new_tam  =  valor1.classTam + valor2.classTam;
+
+            //res_mod = Math.round(res_mod*100000) /100000;
 
             resultado = new Simbolo(res_mod, new_tam);
             return resultado;

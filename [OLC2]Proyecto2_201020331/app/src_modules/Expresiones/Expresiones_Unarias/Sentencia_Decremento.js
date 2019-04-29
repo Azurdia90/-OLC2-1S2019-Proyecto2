@@ -27,7 +27,7 @@ var Sentencia_Decremento = /** @class */ (function (_super) {
         _this.tipo = p_tipo;
         return _this;
     }
-    Sentencia_Decremento.prototype.ejecutar = function () {
+    Sentencia_Decremento.prototype.ejecutar = function (entorno_padre, ptr_entorno) {
         try {
             if (this.tipo == 0) {
                 if (Tabla_Simbolos_1.default.existe_simbolo(this.identificador)) {
@@ -86,6 +86,71 @@ var Sentencia_Decremento = /** @class */ (function (_super) {
         }
         catch (Error) {
             Tabla_Simbolos_1.default.limpiar_3d();
+            var resultado = new Simbolo_1.default();
+            resultado.classAcceso = 0 /* publico */;
+            resultado.classRol = 10 /* error */;
+            resultado.classTipo = 5 /* cadena */;
+            resultado.classIdentificador = "33-12";
+            resultado.classValor = "Decremento No realizado correctamente: " + Error.Message;
+            return resultado;
+        }
+    };
+    Sentencia_Decremento.prototype.evaluar = function (entorno_padre, ptr_entorno) {
+        try {
+            if (this.tipo == 0) {
+                if (Tabla_Simbolos_1.default.existe_simbolo(this.identificador)) {
+                    var retorno = Tabla_Simbolos_1.default.obtener_simbolo(this.identificador);
+                    if (retorno != undefined) {
+                        if ((retorno.classTipo == 2 /* entero */) || (retorno.classTipo == 3 /* decimal */)) {
+                            var resultado = new Simbolo_1.default();
+                            resultado.classAcceso = 0 /* publico */;
+                            resultado.classRol = 9 /* aceptado */;
+                            resultado.classTipo = retorno.classTipo;
+                            resultado.classIdentificador = "10-4";
+                            resultado.classValor = "10-4";
+                            return resultado;
+                        }
+                        else {
+                            var resultado = new Simbolo_1.default();
+                            resultado.classAcceso = 0 /* publico */;
+                            resultado.classRol = 10 /* error */;
+                            resultado.classTipo = 5 /* cadena */;
+                            resultado.classIdentificador = "33-12";
+                            resultado.classValor = "Decremento NO realizado correctamente: La variable \"" + this.identificador + "\" no es de tipo numerico.";
+                            return resultado;
+                        }
+                    }
+                    else {
+                        var resultado = new Simbolo_1.default();
+                        resultado.classAcceso = 0 /* publico */;
+                        resultado.classRol = 10 /* error */;
+                        resultado.classTipo = 5 /* cadena */;
+                        resultado.classIdentificador = "33-12";
+                        resultado.classValor = "Decremento NO realizado correctamente: La variable \"" + this.identificador + "\" no existe.";
+                        return resultado;
+                    }
+                }
+                else {
+                    var resultado = new Simbolo_1.default();
+                    resultado.classAcceso = 0 /* publico */;
+                    resultado.classRol = 10 /* error */;
+                    resultado.classTipo = 5 /* cadena */;
+                    resultado.classIdentificador = "33-12";
+                    resultado.classValor = "Decremento NO realizado correctamente: La variable \"" + this.identificador + "\" no existe.";
+                    return resultado;
+                }
+            }
+            else {
+                var resultado = new Simbolo_1.default();
+                resultado.classAcceso = 0 /* publico */;
+                resultado.classRol = 10 /* error */;
+                resultado.classTipo = 5 /* cadena */;
+                resultado.classIdentificador = "33-12";
+                resultado.classValor = "Decremento No realizado correctamente: Funcionalidad No implementada Aun.";
+                return resultado;
+            }
+        }
+        catch (Error) {
             var resultado = new Simbolo_1.default();
             resultado.classAcceso = 0 /* publico */;
             resultado.classRol = 10 /* error */;

@@ -247,7 +247,7 @@ EXPRESION_ARITMETICA
       { 
         $$ = {etiqueta : "expresion_aritmetica", operador1: $1, simbolo: $2, operador2: $3}; 
       }
-      |DATO_PRIMITIVO
+    | DATO_PRIMITIVO
       {
         $$ = $1;
       }
@@ -309,6 +309,10 @@ DATO_PRIMITIVO
       {
         $$ = {etiqueta: "valor_primitivo", tipo: 4, valor: $1, posicion: $3};
       }
+    |s_minus numero %prec UMINUS  
+      {
+        $$ = {etiqueta : "valor_primitivo", tipo: 5, valor: $2}; 
+      }  
     ;
 
 POSICION
